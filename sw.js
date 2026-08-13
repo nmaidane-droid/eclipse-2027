@@ -1,6 +1,6 @@
 /* Éclipse 2027 — service worker
    Coquille applicative en cache d'abord, polices en réseau d'abord avec repli cache. */
-const VERSION = 'ecl2027-v3';
+const VERSION = 'ecl2027-v4';
 const SHELL = 'shell-' + VERSION;
 const RUNTIME = 'runtime-' + VERSION;
 
