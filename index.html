@@ -110,6 +110,7 @@ button:focus-visible{outline:2px solid var(--safran);outline-offset:2px}
 .ecl.on{background:var(--ardoise2)}
 .ecl .dt{font-family:'IBM Plex Mono',monospace;font-size:13px;font-variant-numeric:tabular-nums;
   min-width:78px;color:var(--craie)}
+.ecl .dt small{display:block;color:var(--brume);font-size:12px;margin-top:2px}
 .ecl .ty{font-size:13px}
 .ecl .ty b{font-weight:500}
 .ecl .ty small{display:block;color:var(--brume);font-size:11.5px;
@@ -644,7 +645,9 @@ function construireListeEclipses(){
     d.dataset.date = e.date;
     const desc = e.totaleIci ? (e.type === 'annulaire' ? 'annulaire ici' : 'totale ici')
                              : `${NOM_TYPE[e.type].toLowerCase()} ailleurs`;
-    d.innerHTML = `<span class="dt">${e.date}</span>
+    const heure = jdTdt2Date(e.jdMaxLocal, e.dT).toLocaleTimeString('fr-FR',
+      { timeZone: site.tz, hour:'2-digit', minute:'2-digit', hour12:false });
+    d.innerHTML = `<span class="dt">${e.date}<small>${heure}</small></span>
       <span class="ty"><b>${e.totaleIci ? NOM_TYPE[e.type] : 'Partielle'}</b><small>${desc} · Soleil ${e.altMax.toFixed(0)}°</small></span>
       <span class="ob">${(e.obscLocale*100).toFixed(0)} %</span>`;
     d.addEventListener('click', () => choisirEclipse(e.date));
@@ -728,6 +731,7 @@ function choisirEclipse(date){
   $('titre').innerHTML = ecl.totaleIci && ecl.type === 'totale'
     ? `Éclipse <em>totale</em>` : `Éclipse <em>${nomT.toLowerCase()}</em>`;
   $('sousTitre').textContent = `${fmtDate(contacts.MAX, ecl.dT)} — ${site.nom}. `
+    + `De ${fmt(contacts.C1, ecl.dT)} à ${fmt(contacts.C4, ecl.dT)}, maximum à ${fmt(contacts.MAX, ecl.dT)}. `
     + `Classée ${NOM_TYPE[ecl.type].toLowerCase()} dans le monde, `
     + `${ecl.totaleIci ? 'et vous êtes dans la bande centrale.' : 'partielle depuis ce lieu.'}`;
   construireContacts();
