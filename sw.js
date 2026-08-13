@@ -1,17 +1,13 @@
 /* Éclipse 2027 — service worker
    Coquille applicative en cache d'abord, polices en réseau d'abord avec repli cache. */
-const VERSION = 'ecl2027-v1';
+const VERSION = 'ecl2027-v3';
 const SHELL = 'shell-' + VERSION;
 const RUNTIME = 'runtime-' + VERSION;
 
 const FICHIERS = [
   './',
   './index.html',
-  './manifest.webmanifest',
-  './icon-192.png',
-  './icon-512.png',
-  './icon-180.png',
-  './icon-maskable-512.png'
+  './manifest.webmanifest'
 ];
 
 self.addEventListener('install', (e) => {
