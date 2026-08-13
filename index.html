@@ -800,9 +800,14 @@ function setSite(lat, lon, h, nom) {
   const avant = site;
   site = { lat, lon, h, nom };
   const essai = findContacts();
-  if (!essai.C1 || !essai.C4) {                 // aucune phase visible depuis ce point
+  // Les contacts peuvent exister géométriquement alors que le Soleil est sous
+  // l'horizon : l'éclipse a lieu, mais de l'autre côté de la Terre. On exige
+  // donc aussi que le Soleil soit levé au maximum.
+  const solLeve = essai.C1 && essai.C4 &&
+                  sunAltAz(jdFromTdt(essai.MAX)).alt > 0;
+  if (!solLeve) {
     site = avant;
-    note(`Aucune éclipse visible depuis ${nom} le 2 août 2027. Lieu précédent conservé.`, 'err');
+    note(`Aucune éclipse visible depuis ${nom} le 2 août 2027 : le Soleil y est sous l'horizon. Lieu précédent conservé.`, 'err');
     return;
   }
   contacts = essai;
@@ -818,6 +823,28 @@ function setSite(lat, lon, h, nom) {
     ? `${nom} : ${Math.floor(s / 60)} min ${String(s % 60).padStart(2, '0')} s de totalité.`
     : `${nom} est hors de la bande de totalité : éclipse partielle seulement, les lunettes ne se retirent à aucun moment.`,
     contacts.C2 ? 'ok' : 'err');
+  enregistrerLieu(site);
+}
+
+/* ---- mémoire du lieu d'observation ----
+   Le choix survit à la fermeture de l'application. Il change dès qu'un autre
+   lieu est touché ; il n'y a donc rien à réinitialiser. */
+const CLE_LIEU = 'eclipse2027.lieu';
+
+function enregistrerLieu(s) {
+  try { localStorage.setItem(CLE_LIEU, JSON.stringify(s)); } catch (e) { /* mode privé */ }
+}
+
+function lieuEnregistre() {
+  try {
+    const brut = localStorage.getItem(CLE_LIEU);
+    if (!brut) return null;
+    const s = JSON.parse(brut);
+    if (typeof s.lat !== 'number' || typeof s.lon !== 'number') return null;
+    if (Math.abs(s.lat) > 90 || Math.abs(s.lon) > 180) return null;
+    if (typeof s.nom !== 'string' || !s.nom) return null;
+    return { lat: s.lat, lon: s.lon, h: typeof s.h === 'number' ? s.h : 50, nom: s.nom };
+  } catch (e) { return null; }
 }
 
 const LIEUX = [
@@ -907,7 +934,11 @@ $('btnGeo').addEventListener('click', () => {
 resize();
 window.addEventListener('resize', resize);
 buildContacts();
-setSite(site.lat, site.lon, site.h, site.nom);
+const memoire = lieuEnregistre();
+setSite(memoire ? memoire.lat : site.lat,
+        memoire ? memoire.lon : site.lon,
+        memoire ? memoire.h   : site.h,
+        memoire ? memoire.nom : site.nom);
 frame();
 </script>
 
