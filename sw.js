@@ -1,8 +1,9 @@
-/* Éclipse 2027 — service worker
-   Coquille applicative en cache d'abord, polices en réseau d'abord avec repli cache. */
-const VERSION = 'ecl2027-v6';
-const SHELL = 'shell-' + VERSION;
-const RUNTIME = 'runtime-' + VERSION;
+/* Éclipse 2027 — service worker en stratégie RÉSEAU D'ABORD.
+   Le cache ne sert que si le réseau est injoignable : une version déployée
+   est visible dès le rechargement suivant, sans avoir à vider quoi que ce soit.
+   Le fonctionnement hors connexion reste assuré — utile sur un cap le 2 août 2027. */
+const VERSION = 'ecl2027-v7';
+const CACHE = 'secours-' + VERSION;
 
 const FICHIERS = [
   './',
@@ -16,8 +17,8 @@ const FICHIERS = [
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(SHELL)
-      .then((c) => c.addAll(FICHIERS))
+    caches.open(CACHE)
+      .then((c) => Promise.all(FICHIERS.map((f) => c.add(f).catch(() => {}))))
       .then(() => self.skipWaiting())
   );
 });
@@ -25,9 +26,7 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
-      .then((noms) => Promise.all(
-        noms.filter((n) => n !== SHELL && n !== RUNTIME).map((n) => caches.delete(n))
-      ))
+      .then((noms) => Promise.all(noms.map((n) => (n !== CACHE ? caches.delete(n) : null))))
       .then(() => self.clients.claim())
   );
 });
@@ -37,12 +36,12 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // polices Google : on tente le réseau, on garde une copie, on retombe sur le cache
+  // polices Google : réseau d'abord, copie gardée, repli sur le cache
   if (url.hostname.endsWith('googleapis.com') || url.hostname.endsWith('gstatic.com')) {
     e.respondWith(
       fetch(req).then((rep) => {
         const copie = rep.clone();
-        caches.open(RUNTIME).then((c) => c.put(req, copie));
+        caches.open(CACHE).then((c) => c.put(req, copie));
         return rep;
       }).catch(() => caches.match(req))
     );
@@ -51,12 +50,14 @@ self.addEventListener('fetch', (e) => {
 
   if (url.origin !== location.origin) return;
 
-  // navigation : cache d'abord, l'application est entièrement autonome
+  // pages et images : réseau d'abord, cache uniquement en secours
   e.respondWith(
-    caches.match(req).then((hit) => hit || fetch(req).then((rep) => {
+    fetch(req).then((rep) => {
       const copie = rep.clone();
-      caches.open(RUNTIME).then((c) => c.put(req, copie));
+      caches.open(CACHE).then((c) => c.put(req, copie));
       return rep;
-    }).catch(() => caches.match('./index.html')))
+    }).catch(() => caches.match(req).then((hit) => {
+      return hit || (req.mode === 'navigate' ? caches.match('./index.html') : undefined);
+    }))
   );
 });
