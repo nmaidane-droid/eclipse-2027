@@ -117,16 +117,23 @@ button:focus-visible{outline:2px solid var(--safran);outline-offset:2px}
 .ecl .ob{font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:right;white-space:nowrap}
 .ecl.totale .ob{color:var(--perle);font-weight:500}
 .ecl.totale .dt{color:var(--perle)}
-.rech{width:100%;font-family:'IBM Plex Mono',monospace;font-size:14px;padding:11px 12px;
-  border-radius:9px;background:var(--ardoise);border:1px solid var(--trait);color:var(--craie);
-  margin-bottom:10px}
-.rech:focus{outline:none;border-color:var(--safran)}
+.lieuBar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+.lieuBar button{flex:1 1 auto}
+.entete{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--brume);margin:0 0 10px}
+.lieuBar .note{flex:1 1 auto;min-width:0;font-size:12px}
+.panneau{margin:0 0 20px;padding:14px;border:1px solid var(--trait);border-radius:12px;
+  background:rgba(16,26,51,.5)}
+.panneau[hidden]{display:none}
 .villes{max-height:230px;overflow-y:auto;border:1px solid var(--trait);border-radius:12px}
 .ville{display:flex;justify-content:space-between;gap:10px;padding:10px 13px;
   border-bottom:1px solid var(--trait);cursor:pointer;font-size:14px}
 .ville:last-child{border-bottom:none}
 .ville:hover{background:var(--ardoise)}
 .ville.on{background:var(--ardoise2);color:var(--safran)}
+.ville.retour{color:var(--brume);font-family:'IBM Plex Mono',monospace;font-size:12.5px;
+  letter-spacing:.08em;text-transform:uppercase}
+.ville.retour:hover{color:var(--craie)}
 .ville small{color:var(--brume);font-family:'IBM Plex Mono',monospace;font-size:11px}
 .note{margin:11px 0 0;font-size:12.5px;line-height:1.45;color:var(--brume)}
 .note.ok{color:var(--safran)}
@@ -147,6 +154,20 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--trait);
 <body>
 <div class="wrap">
   <div class="eyebrow"><span id="lieuNom">Tanger</span><span id="coords">—</span></div>
+
+  <div class="lieuBar">
+    <button id="btnChanger">Changer de lieu</button>
+    <button id="btnChangerEcl">Changer d'éclipse</button>
+  </div>
+  <p class="note" id="note"></p>
+  <div class="panneau" id="panneauLieu" hidden>
+    <div class="villes" id="listeVilles"></div>
+    <div class="btns" style="margin-top:10px"><button id="btnGeo">Utiliser ma position</button></div>
+  </div>
+  <div class="panneau" id="panneauEcl" hidden>
+    <p class="entete" id="titreListe">—</p>
+    <div class="liste" id="listeEcl"></div>
+  </div>
   <h1 id="titre">Éclipses <em>solaires</em></h1>
   <p class="sub" id="sousTitre">Un siècle d'éclipses, calculées pour le lieu de votre choix.</p>
 
@@ -187,15 +208,6 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--trait);
       <button id="btnTot">Aller au maximum</button>
     </div>
   </div>
-
-  <h2 id="titreListe">Éclipses visibles depuis ce lieu</h2>
-  <div class="liste" id="listeEcl"></div>
-
-  <h2>Lieu d'observation</h2>
-  <input class="rech" id="rech" type="text" inputmode="search" placeholder="Chercher une ville…" aria-label="Chercher une ville">
-  <div class="villes" id="listeVilles"></div>
-  <div class="btns" style="margin-top:10px"><button id="btnGeo">Utiliser ma position</button></div>
-  <p class="note" id="note"></p>
 
   <div class="warn">
     <b>Lunettes ISO 12312-2 obligatoires — sauf pendant la totalité</b>
@@ -416,7 +428,7 @@ const $ = (id) => document.getElementById(id);
 const CLE = 'eclipses.etat';
 
 let site = { lat:35.7595, lon:-5.8340, h:20, nom:'Tanger', tz:'Africa/Casablanca' };
-let visibles = [], ecl = null, contacts = null;
+let visibles = [], ecl = null, contacts = null, dateVoulue = null;
 let mode = 'live', scrubT = 0, playStart = 0, T_START = 0, T_END = 0;
 
 const jdMaintenant = () => Date.now()/86400000 + 2440587.5;
@@ -520,6 +532,8 @@ function drawGrid(jour){
 function drawSunOnly(sun){
   const R = Math.max(16, Math.min(W,Hh)*0.075);
   const [cx,cy] = project(sun.az, sun.alt);
+  if (!isFinite(cx) || !isFinite(cy) || !(R > 0)) return;
+  if (!isFinite(cx) || !isFinite(cy) || !isFinite(R)) return;
   if (sun.alt < -0.9){
     ctx.setLineDash([4,4]); ctx.strokeStyle='rgba(224,163,60,.55)'; ctx.lineWidth=1.4;
     ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
@@ -540,6 +554,7 @@ function drawEclipse(c, sun, o, total){
   if (!(c.rSun > 0) || !(c.rMoon > 0)) { drawSunOnly(sun); return; }
   const scale = R/c.rSun;
   const [cx,cy] = project(sun.az, sun.alt);
+  if (!isFinite(cx) || !isFinite(cy) || !isFinite(scale)) return;
   const la=site.lat*D2R, al=sun.alt*D2R, az=sun.az*D2R;
   const s=[Math.sin(az)*Math.cos(al), Math.cos(az)*Math.cos(al), Math.sin(al)];
   const n=[0, Math.cos(la), Math.sin(la)];
@@ -552,6 +567,7 @@ function drawEclipse(c, sun, o, total){
   const dv=[c.U*est[0]+c.V*nord[0], c.U*est[1]+c.V*nord[1], c.U*est[2]+c.V*nord[2]];
   const offX=dot(dv,right)*scale, offY=-dot(dv,up)*scale;
   const mx=cx+offX, my=cy+offY, rM=c.rMoon*scale;
+  if (!isFinite(mx) || !isFinite(my) || !(rM > 0)) { drawSunOnly(sun); return; }
 
   if (total){
     ctx.save(); ctx.globalCompositeOperation='lighter';
@@ -599,7 +615,8 @@ function drawEclipse(c, sun, o, total){
 }
 function render(jdTdt){
   if (!W) resize();
-  const dT = ecl ? ecl.dT : 70;
+  const dT = (ecl && isFinite(ecl.dT)) ? ecl.dT : 70;
+  if (!isFinite(jdTdt)) jdTdt = jdMaintenant() + dT/86400;
   const sun = sunAltAz(site, jdTdt, dT);
   VIEW.az = sun.az; VIEW.alt = sun.alt;
   const dans = ecl && Math.abs(jdTdt - ecl.jd) < 0.14;
@@ -635,19 +652,43 @@ function construireListeEclipses(){
   }
 }
 
-function construireListeVilles(filtre){
+let paysChoisi = null;
+const sansAccent = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+/* Deux niveaux : les pays d'abord, leurs villes ensuite. */
+function construireListeVilles(){
   const l = $('listeVilles'); l.innerHTML = '';
-  const f = (filtre||'').trim().toLowerCase();
-  const norm = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  const sel = VILLES.filter(v => !f || norm(v.nom).includes(norm(f)) || norm(v.pays).includes(norm(f)));
-  if (!sel.length){ l.innerHTML = '<div class="ville"><span>Aucune ville trouvée</span></div>'; return; }
-  for (const v of sel.slice(0, 200)){
+  const ajouter = (html, clic, classe) => {
     const d = document.createElement('div');
-    d.className = 'ville' + (Math.abs(v.lat-site.lat)<5e-4 && Math.abs(v.lon-site.lon)<5e-4 ? ' on' : '');
-    d.innerHTML = `<span>${v.nom}</span><small>${v.pays}</small>`;
-    d.addEventListener('click', () => setSite(v.lat, v.lon, v.h, v.nom, v.tz));
+    d.className = 'ville' + (classe ? ' '+classe : '');
+    d.innerHTML = html;
+    if (clic) d.addEventListener('click', clic);
     l.appendChild(d);
+    return d;
+  };
+  const estCourante = (v) => Math.abs(v.lat-site.lat)<5e-4 && Math.abs(v.lon-site.lon)<5e-4;
+
+  if (!paysChoisi){                          // premier niveau : les pays
+    const compte = {};
+    for (const v of VILLES) compte[v.pays] = (compte[v.pays]||0) + 1;
+    const tete = ['Maroc','Belgique'];
+    const pays = Object.keys(compte).sort((a,b) => {
+      const ia = tete.indexOf(a), ib = tete.indexOf(b);
+      if (ia !== -1 || ib !== -1) return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+      return sansAccent(a).localeCompare(sansAccent(b));
+    });
+    for (const p of pays)
+      ajouter(`<span>${p}</span><small>${compte[p]} ${compte[p]>1?'villes':'ville'}</small>`,
+              () => { paysChoisi = p; construireListeVilles(); },
+              VILLES.some(v => v.pays===p && estCourante(v)) ? 'on' : '');
+    return;
   }
+
+  ajouter(`<span>&larr; Tous les pays</span><small>${paysChoisi}</small>`,
+          () => { paysChoisi = null; construireListeVilles(); }, 'retour');
+  for (const v of VILLES.filter(v => v.pays === paysChoisi))
+    ajouter(`<span>${v.nom}</span><small>${Math.abs(v.lat).toFixed(2)}° ${v.lat<0?'S':'N'}</small>`,
+            () => setSite(v.lat, v.lon, v.h, v.nom, v.tz), estCourante(v) ? 'on' : '');
 }
 
 /* ---- choix du lieu et de l'éclipse ---- */
@@ -663,8 +704,12 @@ function setSite(lat, lon, h, nom, tz){
     note(`${visibles.length} éclipses visibles d'ici 2126, dont ${tot} totale${tot>1?'s':''} sur place. `
          + `Calcul en ${Math.round(performance.now()-t0)} ms.`, 'ok');
     construireListeEclipses();
-    construireListeVilles($('rech').value);
-    const garde = ecl && visibles.some(e => e.date === ecl.date) ? ecl.date : null;
+    construireListeVilles();
+    $('panneauLieu').hidden = true;
+    $('btnChanger').classList.remove('on');
+    const souhaitee = (ecl && ecl.date) || dateVoulue;
+    const garde = souhaitee && visibles.some(e => e.date === souhaitee) ? souhaitee : null;
+    dateVoulue = null;
     // à défaut de choix mémorisé, on ouvre sur la prochaine éclipse à venir
     const maintenant = jdMaintenant();
     const prochaine = visibles.find(e => e.jd > maintenant) || visibles[visibles.length-1];
@@ -687,6 +732,11 @@ function choisirEclipse(date){
     + `${ecl.totaleIci ? 'et vous êtes dans la bande centrale.' : 'partielle depuis ce lieu.'}`;
   construireContacts();
   for (const d of $('listeEcl').children) d.classList.toggle('on', d.dataset.date === date);
+  const j = jdTdt2Date(contacts.MAX, ecl.dT).toLocaleDateString('fr-FR',
+    { timeZone: site.tz, day:'numeric', month:'short', year:'numeric' });
+  $('btnChangerEcl').textContent = j;
+  $('panneauEcl').hidden = true;
+  $('btnChangerEcl').classList.remove('on');
   enregistrer();
 }
 
@@ -779,9 +829,10 @@ function updateStatut(t){
   L.textContent='Éclipse terminée'; V.textContent='—';
 }
 function tick(){
-  const t = currentT();
+  let t = currentT();
+  if (!isFinite(t)) t = jdMaintenant() + ((ecl && isFinite(ecl.dT)) ? ecl.dT : 70)/86400;
   const { c, o, sun, dans } = render(t);
-  const dT = ecl ? ecl.dT : 70;
+  const dT = (ecl && isFinite(ecl.dT)) ? ecl.dT : 70;
   $('dHeure').textContent = fmt(t, dT, true);
   $('dObsc').innerHTML = dans ? `${(o*100).toFixed(1)} <small>%</small>` : '<small>hors éclipse</small>';
   $('dMag').textContent = c ? Math.max(0,c.mag).toFixed(3) : '—';
@@ -820,7 +871,21 @@ $('btnTot').addEventListener('click', () => {
   scrubT = (contacts.C2 && contacts.C3) ? (contacts.C2+contacts.C3)/2 : contacts.MAX;
   setActive('btnTot');
 });
-$('rech').addEventListener('input', (e) => construireListeVilles(e.target.value));
+$('btnChangerEcl').addEventListener('click', () => {
+  const p = $('panneauEcl');
+  p.hidden = !p.hidden;
+  $('btnChangerEcl').classList.toggle('on', !p.hidden);
+  if (!p.hidden){ $('panneauLieu').hidden = true; $('btnChanger').classList.remove('on'); }
+});
+$('btnChanger').addEventListener('click', () => {
+  const p = $('panneauLieu');
+  p.hidden = !p.hidden;
+  $('btnChanger').classList.toggle('on', !p.hidden);
+  if (!p.hidden){ $('panneauEcl').hidden = true; $('btnChangerEcl').classList.remove('on');
+                  const v = VILLES.find(v => Math.abs(v.lat-site.lat)<5e-4 && Math.abs(v.lon-site.lon)<5e-4);
+                  paysChoisi = v ? v.pays : null;
+                  construireListeVilles(); }
+});
 $('btnGeo').addEventListener('click', () => {
   const b = $('btnGeo');
   if (!navigator.geolocation){ note("Ce navigateur ne propose pas de géolocalisation.", 'err'); return; }
@@ -858,9 +923,12 @@ $('pied').innerHTML =
 resize();
 window.addEventListener('resize', resize);
 const memoire = relire();
-if (memoire){ ecl = { date: memoire.date }; setSite(memoire.site.lat, memoire.site.lon, memoire.site.h, memoire.site.nom, memoire.site.tz); }
+if (memoire){
+  dateVoulue = memoire.date;
+  setSite(memoire.site.lat, memoire.site.lon, memoire.site.h, memoire.site.nom, memoire.site.tz);
+}
 else setSite(site.lat, site.lon, site.h, site.nom, site.tz);
-construireListeVilles('');
+construireListeVilles();
 frame();
 
 </script>
