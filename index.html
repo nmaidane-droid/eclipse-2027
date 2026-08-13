@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070B1A">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Éclipse 2027">
+<meta name="description" content="Éclipse totale de Soleil du 2 août 2027 : horaires, totalité et simulation en direct pour le Maroc.">
+<title>Éclipse totale du 2 août 2027 — Tanger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuit:#070B1A;
+  --ardoise:#101A33;
+  --ardoise-2:#182444;
+  --brume:#8496BC;
+  --craie:#F4EFE6;
+  --safran:#E0A33C;
+  --corail:#C4573E;
+  --perle:#DCE6F5;
+  --trait:rgba(132,150,188,.18);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--nuit);color:var(--craie);
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  font-size:15px;line-height:1.5;overflow-x:hidden;
+  padding:0 0 env(safe-area-inset-bottom);
+}
+.wrap{max-width:560px;margin:0 auto;padding:22px 18px 48px}
+
+.eyebrow{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brume);
+  display:flex;justify-content:space-between;gap:10px;
+  border-bottom:1px solid var(--trait);padding-bottom:9px;margin-bottom:16px;
+}
+h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:34px;
+   line-height:1.05;letter-spacing:-.01em;margin:0 0 4px}
+h1 em{font-style:italic;color:var(--safran)}
+.sub{color:var(--brume);font-size:13.5px;margin:0 0 20px}
+
+.statut{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 12px}
+.statut .label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--brume)}
+.statut .val{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;
+  font-size:27px;font-weight:300;letter-spacing:-.01em}
+.statut .val.live{color:var(--safran)}
+.statut .val.tot{color:var(--perle);font-weight:400}
+
+.scene{position:relative;border-radius:14px;overflow:hidden;
+  border:1px solid var(--trait);background:#03050C;aspect-ratio:1/1}
+.scene canvas{display:block;width:100%;height:100%}
+.scene .tag{position:absolute;left:10px;top:9px;font-family:'IBM Plex Mono',monospace;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(244,239,230,.55);text-shadow:0 1px 3px rgba(0,0,0,.7);pointer-events:none}
+.scene .tag.r{left:auto;right:10px;text-align:right}
+.scene .totband{
+  position:absolute;left:0;right:0;bottom:0;padding:9px 12px;
+  background:linear-gradient(0deg,rgba(3,5,12,.92),rgba(3,5,12,0));
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--perle);text-align:center;
+  opacity:0;transition:opacity .4s;pointer-events:none;
+}
+.scene .totband.on{opacity:1}
+
+.bar{margin:16px 0 4px}
+.bar .track{height:5px;border-radius:3px;background:var(--ardoise-2);position:relative;overflow:hidden}
+.bar .fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--corail),var(--safran));width:0%}
+.bar .tot{position:absolute;top:0;bottom:0;background:var(--perle);opacity:.85}
+.bar .marks{position:relative;height:14px;margin-top:5px}
+.bar .marks span{position:absolute;transform:translateX(-50%);
+  font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--brume);letter-spacing:.08em}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--trait);
+  border:1px solid var(--trait);border-radius:12px;overflow:hidden;margin:20px 0 0}
+.cell{background:var(--nuit);padding:12px 13px}
+.cell dt{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--brume);margin:0 0 4px}
+.cell dd{margin:0;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;
+  font-size:18px}
+.cell dd small{font-size:11px;color:var(--brume);font-weight:300}
+.cell.hi dd{color:var(--perle)}
+
+h2{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--brume);margin:28px 0 10px;padding-bottom:8px;
+  border-bottom:1px solid var(--trait)}
+.contacts{list-style:none;margin:0;padding:0}
+.contacts li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:baseline;
+  padding:10px 0;border-bottom:1px solid var(--trait)}
+.contacts li.now{color:var(--safran)}
+.contacts li.tot .t{color:var(--perle)}
+.contacts .t{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;
+  font-size:17px;min-width:66px}
+.contacts .n{font-size:14px}
+.contacts .n b{display:block;font-weight:500}
+.contacts .n span{color:var(--brume);font-size:12px}
+.contacts .d{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--brume);
+  text-align:right;white-space:nowrap}
+
+.ctrl{margin:26px 0 0}
+.ctrl .row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ctrl label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--brume)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--ardoise-2);border-radius:2px}
+input[type=range]::-moz-range-track{height:3px;background:var(--ardoise-2);border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--safran);border:none;margin-top:-7.5px;box-shadow:0 0 0 4px rgba(224,163,60,.16)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--safran);border:none}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+button{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--craie);background:var(--ardoise);border:1px solid var(--trait);
+  padding:10px 14px;border-radius:9px;cursor:pointer;transition:background .15s,border-color .15s}
+button:hover{background:var(--ardoise-2)}
+button.on{background:var(--safran);color:#150F04;border-color:var(--safran);font-weight:500}
+button:focus-visible{outline:2px solid var(--safran);outline-offset:2px}
+
+.lieux{margin:18px 0 0;padding-top:16px;border-top:1px solid var(--trait)}
+.lieux > label{display:block;margin-bottom:10px}
+.lieux .presets{display:flex;gap:7px;flex-wrap:wrap}
+.lieux .presets button{padding:7px 11px;font-size:10px;letter-spacing:.1em}
+.lieux .presets button.hors{opacity:.62}
+.lieux .presets button.on{opacity:1}
+.lieux .fields{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:12px}
+.lieux input{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;font-size:14px;
+  width:98px;padding:9px 10px;border-radius:8px;background:var(--ardoise);
+  border:1px solid var(--trait);color:var(--craie)}
+.lieux input:focus{outline:none;border-color:var(--safran)}
+.lieux .fields span{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--brume);letter-spacing:.1em}
+.note{margin:11px 0 0;font-size:12.5px;line-height:1.45;color:var(--brume)}
+.note.ok{color:var(--safran)}
+.note.err{color:#EFA48E}
+.note:empty{display:none}
+
+.warn{margin:28px 0 0;padding:14px 15px;border-radius:12px;
+  background:rgba(196,87,62,.12);border:1px solid rgba(196,87,62,.4)}
+.warn b{color:#F0AC93;display:block;font-size:13px;margin-bottom:4px}
+.warn p{margin:0 0 9px;font-size:13px;color:#E7D3C9;line-height:1.45}
+.warn p:last-child{margin-bottom:0}
+.warn .ok{color:var(--perle)}
+
+footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--trait);
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.7;
+  color:var(--brume);letter-spacing:.03em}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">
+    <span id="lieuNom">Tanger · Maroc</span>
+    <span id="coords">35.760 N — 5.834 O</span>
+  </div>
+
+  <h1>Cinq minutes de <em>nuit</em></h1>
+  <p class="sub">Éclipse totale du lundi 2 août 2027, calculée en direct sur l'heure de votre téléphone. Heures locales du Maroc (UTC+1). Le Soleil sera à 38° au-dessus de l'horizon est — aucun problème de dégagement, contrairement à 2026.</p>
+
+  <div class="statut">
+    <span class="label" id="statutLabel">Totalité dans</span>
+    <span class="val live" id="statutVal">—</span>
+  </div>
+
+  <div class="scene">
+    <canvas id="sky"></canvas>
+    <div class="tag" id="tagLeft">Vue vers l'est</div>
+    <div class="tag r" id="tagRight">—</div>
+    <div class="totband" id="totBand">Totalité — lunettes retirées</div>
+  </div>
+
+  <div class="bar">
+    <div class="track"><div class="fill" id="fill"></div><div class="tot" id="totMark" style="display:none"></div></div>
+    <div class="marks">
+      <span id="mk1" style="left:0;transform:none">—</span>
+      <span id="mk2" style="left:50%">—</span>
+      <span id="mk3" style="left:100%;transform:translateX(-100%)">—</span>
+    </div>
+  </div>
+
+  <dl class="grid">
+    <div class="cell"><dt>Heure locale</dt><dd id="dHeure">—</dd></div>
+    <div class="cell hi"><dt>Durée de la totalité</dt><dd id="dDuree">—</dd></div>
+    <div class="cell"><dt>Surface masquée</dt><dd id="dObsc">—</dd></div>
+    <div class="cell"><dt>Magnitude</dt><dd id="dMag">—</dd></div>
+    <div class="cell"><dt>Hauteur du Soleil</dt><dd id="dAlt">—</dd></div>
+    <div class="cell"><dt>Azimut</dt><dd id="dAz">—</dd></div>
+  </dl>
+
+  <h2>Le déroulé de la matinée</h2>
+  <ul class="contacts" id="contacts"></ul>
+
+  <div class="ctrl">
+    <div class="row">
+      <label for="scrub">Parcourir la matinée</label>
+      <span style="flex:1"></span>
+      <span class="label" id="scrubTime" style="font-variant-numeric:tabular-nums"></span>
+    </div>
+    <input type="range" id="scrub" min="0" max="2000" value="0" step="1" aria-label="Parcourir l'éclipse">
+    <div class="btns">
+      <button id="btnLive" class="on">En direct</button>
+      <button id="btnPlay">Rejouer en 40 s</button>
+      <button id="btnTot">Aller à la totalité</button>
+    </div>
+
+    <div class="lieux">
+      <label>Lieu d'observation</label>
+      <div class="presets" id="presets"></div>
+      <div class="fields">
+        <input type="text" id="inLat" value="35.7595" inputmode="decimal" aria-label="Latitude nord">
+        <span>N</span>
+        <input type="text" id="inLon" value="-5.8340" inputmode="decimal" aria-label="Longitude, ouest négatif">
+        <span>E (ouest = négatif)</span>
+        <button id="btnApply">Appliquer</button>
+      </div>
+      <p class="note" id="note"></p>
+    </div>
+  </div>
+
+  <div class="warn">
+    <b>Lunettes ISO 12312-2 obligatoires — sauf pendant la totalité</b>
+    <p>Du premier au deuxième contact, puis du troisième au quatrième, le Soleil brûle la rétine sans douleur. Jamais à l'œil nu, jamais de jumelles ou d'appareil photo sans filtre devant l'objectif.</p>
+    <p class="ok">Entre C2 et C3, et seulement là, on retire les lunettes : c'est le seul moyen de voir la couronne, et elle ne présente aucun danger. Remettez-les dès la première étincelle du troisième contact.</p>
+  </div>
+
+  <footer>
+    Calculs : éléments besséliens NASA/GSFC (F. Espenak), Saros 136, méthode Meeus ch. 54, ΔT = 76,0 s.<br>
+    Vérifié : Tétouan C2 09:45:03 / C4 11:01:02, conforme aux éphémérides publiées ; Louxor 6 min 20 s.<br>
+    Taille des astres exagérée ; positions, angles, durées et horaires réels. Couronne et protubérances schématiques.
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   1. Éléments besséliens — éclipse totale du 2 août 2027
+   t0 = 2027 Aug 02 10:00:00.0 TDT,  ΔT = 76.0 s,  Saros 136
+   ============================================================ */
+const BX  = [-0.0197720, 0.5447123, -0.0000446, -0.0000092];
+const BY  = [0.1600610, -0.2111582, -0.0001217, 0.0000038];
+const BD  = [17.7624702, -0.0101810, -0.0000040, 0];
+const BL1 = [0.5305960, 0.0000138, -0.0000128, 0];
+const BL2 = [-0.0154640, 0.0000137, -0.0000128, 0];
+const BMU = [328.422546, 15.002100, 0, 0];
+const TANF1 = 0.0046064, TANF2 = 0.0045834, DELTAT = 76.0, T0 = 10.0;
+
+const RAD = Math.PI / 180, DEG = 180 / Math.PI;
+const J0 = 2461619.5;                        // 2027-08-02 00:00 UT
+const DAY0 = Date.UTC(2027, 7, 2, 0, 0, 0);
+const TZ = 'Africa/Casablanca';
+
+const poly = (c, t) => c[0] + c[1] * t + c[2] * t * t + c[3] * t * t * t;
+
+let site = { lat: 35.7595, lon: -5.8340, h: 20, nom: 'Tanger' };
+
+function circ(tTDT) {
+  const tt = tTDT - T0;
+  const x = poly(BX, tt), y = poly(BY, tt);
+  const d = poly(BD, tt) * RAD;
+  const l1 = poly(BL1, tt), l2 = poly(BL2, tt);
+  const mu = poly(BMU, tt);
+
+  const latR = site.lat * RAD;
+  const u = Math.atan(0.99664719 * Math.tan(latR));
+  const rs = 0.99664719 * Math.sin(u) + (site.h / 6378140) * Math.sin(latR);
+  const rc = Math.cos(u) + (site.h / 6378140) * Math.cos(latR);
+
+  const H = (mu + site.lon - 0.00417807 * DELTAT) * RAD;
+  const xi   = rc * Math.sin(H);
+  const eta  = rs * Math.cos(d) - rc * Math.cos(H) * Math.sin(d);
+  const zeta = rs * Math.sin(d) + rc * Math.cos(H) * Math.cos(d);
+
+  const U = x - xi, V = y - eta;
+  const m = Math.hypot(U, V);
+  const L1p = l1 - zeta * TANF1;
+  const L2p = l2 - zeta * TANF2;
+  return {
+    m, L1p, L2p, U, V, zeta,
+    rSun: (L1p + L2p) / 2,
+    rMoon: (L1p - L2p) / 2,
+    mag: (L1p - m) / (L1p + L2p),
+    total: m < -L2p            // L2' négatif = ombre, totalité si m plus petit
+  };
+}
+
+function obscuration(c) {
+  const { m, rSun: rs, rMoon: rm } = c;
+  if (m >= rs + rm) return 0;
+  if (m <= Math.abs(rm - rs)) return rm >= rs ? 1 : (rm / rs) ** 2;
+  const ca = Math.max(-1, Math.min(1, (m * m + rs * rs - rm * rm) / (2 * m * rs)));
+  const cb = Math.max(-1, Math.min(1, (m * m + rm * rm - rs * rs) / (2 * m * rm)));
+  const A = Math.acos(ca), B = Math.acos(cb);
+  return (rs * rs * (A - ca * Math.sin(A)) + rm * rm * (B - cb * Math.sin(B))) / (Math.PI * rs * rs);
+}
+
+function sunAltAz(jdUT) {
+  const T = (jdUT + DELTAT / 86400 - 2451545) / 36525;
+  const L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
+  const M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;
+  const C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M * RAD)
+          + (0.019993 - 0.000101 * T) * Math.sin(2 * M * RAD)
+          + 0.000289 * Math.sin(3 * M * RAD);
+  const Om = 125.04 - 1934.136 * T;
+  const lam = L0 + C - 0.00569 - 0.00478 * Math.sin(Om * RAD);
+  const eps = 23 + 26 / 60 + 21.448 / 3600
+            - (46.8150 * T + 0.00059 * T * T - 0.001813 * T ** 3) / 3600
+            + 0.00256 * Math.cos(Om * RAD);
+  const ra  = Math.atan2(Math.cos(eps * RAD) * Math.sin(lam * RAD), Math.cos(lam * RAD));
+  const dec = Math.asin(Math.sin(eps * RAD) * Math.sin(lam * RAD));
+  const Tu = (jdUT - 2451545) / 36525;
+  const gmst = (280.46061837 + 360.98564736629 * (jdUT - 2451545) + 0.000387933 * Tu * Tu) % 360;
+  const H = (gmst + site.lon - ra * DEG) * RAD;
+  const latR = site.lat * RAD;
+  const alt = Math.asin(Math.sin(latR) * Math.sin(dec) + Math.cos(latR) * Math.cos(dec) * Math.cos(H));
+  const az  = Math.atan2(-Math.sin(H), Math.tan(dec) * Math.cos(latR) - Math.sin(latR) * Math.cos(H));
+  return { alt: alt * DEG, az: ((az * DEG) % 360 + 360) % 360 };
+}
+
+/* Contacts C1, C2, maximum, C3, C4 — heures TDT */
+function findContacts() {
+  const step = 4 / 3600;
+  let pP = null, pU = null;
+  const r = { C1: null, C2: null, C3: null, C4: null, MAX: 0 };
+  let best = -9;
+  for (let t = 6.5; t < 13.5; t += step) {
+    const c = circ(t);
+    const fP = c.m - c.L1p;        // pénombre : < 0 pendant l'éclipse
+    const fU = c.m + c.L2p;        // ombre    : < 0 pendant la totalité
+    if (c.mag > best) { best = c.mag; r.MAX = t; }
+    if (pP !== null) {
+      if (pP > 0 && fP <= 0 && r.C1 === null) r.C1 = t;
+      if (pP < 0 && fP >= 0 && r.C1 !== null && r.C4 === null) r.C4 = t;
+      if (pU > 0 && fU <= 0 && r.C2 === null) r.C2 = t;
+      if (pU < 0 && fU >= 0 && r.C2 !== null && r.C3 === null) r.C3 = t;
+    }
+    pP = fP; pU = fU;
+  }
+  const refine = (t, umbra) => {
+    if (t === null) return null;
+    const f = (x) => { const c = circ(x); return umbra ? c.m + c.L2p : c.m - c.L1p; };
+    let a = t - step, b = t + step;
+    for (let i = 0; i < 45; i++) {
+      const mid = (a + b) / 2;
+      if (Math.sign(f(mid)) === Math.sign(f(a))) a = mid; else b = mid;
+    }
+    return (a + b) / 2;
+  };
+  return {
+    C1: refine(r.C1, false), C4: refine(r.C4, false),
+    C2: refine(r.C2, true),  C3: refine(r.C3, true),
+    MAX: r.MAX
+  };
+}
+
+const dateFromTdt = (t) => new Date(DAY0 + (t - DELTAT / 3600) * 3600000);
+const tdtFromDate = (d) => (d.getTime() - DAY0) / 3600000 + DELTAT / 3600;
+const jdFromTdt   = (t) => J0 + (t - DELTAT / 3600) / 24;
+const fmtLocal = (d, sec) => d.toLocaleTimeString('fr-FR', {
+  timeZone: TZ, hour: '2-digit', minute: '2-digit',
+  ...(sec ? { second: '2-digit' } : {}), hour12: false
+});
+
+/* ============================================================
+   2. Rendu du ciel
+   ============================================================ */
+const cv = document.getElementById('sky');
+const ctx = cv.getContext('2d');
+let W = 0, Hh = 0, DPR = 1;
+
+const SPAN = 34;                        // champ visible en degrés (largeur du cadre)
+let VIEW = { az: 90, alt: 30, k: 10 };  // centre du champ : toujours le Soleil
+
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2.5);
+  const r = cv.getBoundingClientRect();
+  W = r.width; Hh = r.height;
+  cv.width = Math.round(W * DPR); cv.height = Math.round(Hh * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  VIEW.k = W / SPAN;
+}
+
+/* projection locale autour du Soleil : haut de l'écran = zénith */
+function project(az, alt) {
+  let d = az - VIEW.az;
+  while (d > 180) d -= 360;
+  while (d < -180) d += 360;
+  return [W / 2 + d * Math.cos(VIEW.alt * RAD) * VIEW.k, Hh / 2 - (alt - VIEW.alt) * VIEW.k];
+}
+const clamp01 = (v) => Math.max(0, Math.min(1, v));
+const mix = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
+const rgb = (c) => `rgb(${c[0] | 0},${c[1] | 0},${c[2] | 0})`;
+
+/* champ d'étoiles indicatif, tiré une fois */
+const STARS = (() => {
+  let s = 987654;
+  const rnd = () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+  const a = [];
+  for (let i = 0; i < 220; i++) a.push({ az: rnd() * 360, alt: Math.asin(rnd()) * DEG, m: rnd() });
+  return a;
+})();
+
+/* couronne figée : rayons tirés une fois pour toutes */
+const STREAMERS = (() => {
+  let s = 12345;
+  const rnd = () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+  const arr = [];
+  for (let i = 0; i < 64; i++) {
+    const a = rnd() * Math.PI * 2;
+    const eq = Math.abs(Math.cos(a));
+    arr.push({ a, len: 1.5 + rnd() * 1.5 + eq * 1.4, w: 0.03 + rnd() * 0.07, op: 0.20 + rnd() * 0.35 });
+  }
+  return arr;
+})();
+const PROMS = [{ a: 0.6, s: 0.16, r: 0.055 }, { a: 2.35, s: 0.11, r: 0.04 },
+               { a: 3.9, s: 0.2, r: 0.065 }, { a: 5.3, s: 0.09, r: 0.035 }];
+
+/* ciel : couleur pilotée par la hauteur du Soleil, puis assombrie par l'éclipse */
+function drawSky(sunAlt, o, total) {
+  const jour = clamp01((sunAlt + 6) / 14);          // 0 = nuit noire, 1 = plein jour
+  const bas  = clamp01((10 - sunAlt) / 16);         // Soleil bas : bande chaude
+  const ecl  = total ? 0.035 : 1 - 0.955 * Math.pow(Math.max(0, o), 9);
+
+  const haut = mix([5, 7, 18], [26, 68, 142], jour).map(v => v * ecl);
+  let basC   = mix([9, 12, 26], [96, 150, 210], jour);
+  basC = mix(basC, [206, 122, 74], bas * jour * 0.85).map(v => v * (ecl * 0.94 + 0.06));
+
+  const g = ctx.createLinearGradient(0, 0, 0, Hh);
+  g.addColorStop(0, rgb(haut));
+  g.addColorStop(1, rgb(basC));
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, Hh);
+
+  const nuit = (1 - jour) * ecl;
+  if (nuit > 0.25) {
+    for (const st of STARS) {
+      const [x, y] = project(st.az, st.alt);
+      if (x < -4 || x > W + 4 || y < -4 || y > Hh + 4) continue;
+      ctx.fillStyle = `rgba(238,244,255,${(0.25 + st.m * 0.6) * (nuit - 0.25) / 0.75})`;
+      ctx.beginPath(); ctx.arc(x, y, 0.6 + st.m * 1.1, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  return { jour, ecl };
+}
+
+/* grille alt/az et horizon */
+function drawGrid(jour) {
+  const a = 0.08 + 0.14 * (1 - jour) + 0.06 * jour;
+  ctx.lineWidth = 1;
+  ctx.font = `400 9px 'IBM Plex Mono',monospace`;
+
+  ctx.strokeStyle = `rgba(244,239,230,${a})`;
+  ctx.textAlign = 'left';
+  const a0 = Math.floor((VIEW.alt - SPAN * Hh / W / 2) / 10) * 10;
+  const a1 = Math.ceil((VIEW.alt + SPAN * Hh / W / 2) / 10) * 10;
+  for (let alt = a0; alt <= a1; alt += 10) {
+    if (alt === 0) continue;
+    const y = project(VIEW.az, alt)[1];
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    ctx.fillStyle = `rgba(244,239,230,${a + .16})`;
+    ctx.fillText(alt + '°', 6, y - 4);
+  }
+
+  ctx.textAlign = 'center';
+  const z0 = Math.floor((VIEW.az - SPAN / 2) / 10) * 10;
+  const CARD = { 0: 'N', 90: 'E', 180: 'S', 270: 'O' };
+  for (let az = z0; az <= z0 + SPAN + 10; az += 10) {
+    const x = project(az, VIEW.alt)[0];
+    if (x < 16 || x > W - 16) continue;
+    ctx.strokeStyle = `rgba(244,239,230,${a * 0.7})`;
+    ctx.beginPath(); ctx.moveTo(x, Hh - 17); ctx.lineTo(x, Hh - 12); ctx.stroke();
+    const k = ((az % 360) + 360) % 360;
+    ctx.fillStyle = `rgba(244,239,230,${a + .16})`;
+    ctx.fillText(CARD[k] || (k + '°'), x, Hh - 3);
+  }
+
+  // horizon
+  const yh = project(VIEW.az, 0)[1];
+  if (yh > -20 && yh < Hh + 20) {
+    ctx.fillStyle = 'rgba(3,5,11,.93)';
+    ctx.fillRect(0, yh, W, Hh - yh);
+    ctx.strokeStyle = 'rgba(244,239,230,.28)';
+    ctx.beginPath(); ctx.moveTo(0, yh); ctx.lineTo(W, yh); ctx.stroke();
+    ctx.fillStyle = 'rgba(244,239,230,.42)';
+    ctx.textAlign = 'left';
+    ctx.fillText('HORIZON', 6, yh + 13);
+  }
+}
+
+/* Soleil seul, hors période d'éclipse */
+function drawSunOnly(sun) {
+  const R = Math.max(16, Math.min(W, Hh) * 0.075);
+  const [cx, cy] = project(sun.az, sun.alt);
+  if (sun.alt < -0.9) {                       // sous l'horizon : position indicative
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = 'rgba(224,163,60,.55)';
+    ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(224,163,60,.10)';
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+    return;
+  }
+  const gR = R * 3.4;
+  const glow = ctx.createRadialGradient(cx, cy, R * 0.8, cx, cy, gR);
+  glow.addColorStop(0, 'rgba(255,232,180,.34)');
+  glow.addColorStop(0.4, 'rgba(255,206,130,.12)');
+  glow.addColorStop(1, 'rgba(255,206,130,0)');
+  ctx.fillStyle = glow;
+  ctx.beginPath(); ctx.arc(cx, cy, gR, 0, Math.PI * 2); ctx.fill();
+  const core = ctx.createRadialGradient(cx - R * .12, cy - R * .12, R * .1, cx, cy, R);
+  core.addColorStop(0, 'rgb(255,253,242)');
+  core.addColorStop(0.78, 'rgb(255,235,186)');
+  core.addColorStop(1, 'rgb(252,206,126)');
+  ctx.fillStyle = core;
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+}
+
+function drawEclipse(c, sun, o, total) {
+  const R = Math.max(22, Math.min(W, Hh) * 0.108);
+  if (!(c.rSun > 0) || !(c.rMoon > 0)) { drawSunOnly(sun); return; }
+  const scale = R / c.rSun;
+  const [cx, cy] = project(sun.az, sun.alt);
+
+  const latR = site.lat * RAD, altR = sun.alt * RAD, azR = sun.az * RAD;
+  const s = [Math.sin(azR) * Math.cos(altR), Math.cos(azR) * Math.cos(altR), Math.sin(altR)];
+  const n = [0, Math.cos(latR), Math.sin(latR)];
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const nrm = (a) => { const L = Math.hypot(a[0], a[1], a[2]); return [a[0] / L, a[1] / L, a[2] / L]; };
+  const east = nrm(cross(n, s));
+  const ns = dot(n, s);
+  const north = nrm([n[0] - ns * s[0], n[1] - ns * s[1], n[2] - ns * s[2]]);
+  const zs = s[2];
+  const up = nrm([-zs * s[0], -zs * s[1], 1 - zs * s[2]]);
+  const right = cross(s, up);
+
+  const dv = [c.U * east[0] + c.V * north[0], c.U * east[1] + c.V * north[1], c.U * east[2] + c.V * north[2]];
+  const offX = dot(dv, right) * scale, offY = -dot(dv, up) * scale;
+  const mx = cx + offX, my = cy + offY;
+  const rM = c.rMoon * scale;
+
+  if (total) {
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    for (const st of STREAMERS) {
+      const g = ctx.createLinearGradient(mx, my, mx + Math.cos(st.a) * R * st.len, my + Math.sin(st.a) * R * st.len);
+      g.addColorStop(0, `rgba(226,236,252,${st.op})`);
+      g.addColorStop(1, 'rgba(226,236,252,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.moveTo(mx, my);
+      ctx.arc(mx, my, R * st.len, st.a - st.w, st.a + st.w);
+      ctx.closePath();
+      ctx.fill();
+    }
+    const halo = ctx.createRadialGradient(mx, my, rM * 0.96, mx, my, R * 2.3);
+    halo.addColorStop(0, 'rgba(232,241,255,.62)');
+    halo.addColorStop(0.18, 'rgba(210,224,248,.30)');
+    halo.addColorStop(1, 'rgba(190,210,245,0)');
+    ctx.fillStyle = halo;
+    ctx.beginPath(); ctx.arc(mx, my, R * 2.3, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+
+    for (const p of PROMS) {
+      ctx.fillStyle = 'rgba(236,92,110,.75)';
+      ctx.beginPath();
+      ctx.ellipse(mx + Math.cos(p.a) * rM * 1.01, my + Math.sin(p.a) * rM * 1.01,
+                  rM * p.r, rM * p.s, p.a, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.fillStyle = '#02040A';
+    ctx.beginPath(); ctx.arc(mx, my, rM, 0, Math.PI * 2); ctx.fill();
+    return;
+  }
+
+  const gR = R * (3.6 - 2.4 * o);
+  const glow = ctx.createRadialGradient(cx, cy, R * 0.8, cx, cy, gR);
+  glow.addColorStop(0, `rgba(255,232,180,${0.38 * (1 - o * 0.85)})`);
+  glow.addColorStop(0.4, `rgba(255,206,130,${0.13 * (1 - o * 0.8)})`);
+  glow.addColorStop(1, 'rgba(255,206,130,0)');
+  ctx.fillStyle = glow;
+  ctx.beginPath(); ctx.arc(cx, cy, gR, 0, Math.PI * 2); ctx.fill();
+
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.clip();
+  const core = ctx.createRadialGradient(cx - R * 0.12, cy - R * 0.12, R * 0.1, cx, cy, R);
+  core.addColorStop(0, 'rgb(255,253,242)');
+  core.addColorStop(0.78, 'rgb(255,235,186)');
+  core.addColorStop(1, 'rgb(252,206,126)');
+  ctx.fillStyle = core;
+  ctx.fillRect(cx - R, cy - R, R * 2, R * 2);
+  ctx.restore();
+
+  ctx.beginPath(); ctx.arc(mx, my, rM, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(4,6,14,.98)';
+  ctx.fill();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(150,168,205,.18)';
+  ctx.stroke();
+
+  if (o > 0.985) {
+    const L = Math.hypot(offX, offY) || 1e-6;
+    const bx = cx - offX / L * R, by = cy - offY / L * R;
+    const inten = Math.min(1, (o - 0.985) / 0.015);
+    const dg = ctx.createRadialGradient(bx, by, 0, bx, by, R * 1.5 * inten);
+    dg.addColorStop(0, `rgba(255,255,250,${0.95 * inten})`);
+    dg.addColorStop(0.12, `rgba(255,246,214,${0.6 * inten})`);
+    dg.addColorStop(1, 'rgba(255,246,214,0)');
+    ctx.fillStyle = dg;
+    ctx.beginPath(); ctx.arc(bx, by, R * 1.5 * inten, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+/* les éléments besséliens ne valent que quelques heures autour de t0 */
+const ECL_VALID = 3.2;
+
+function render(tTDT) {
+  if (!W) resize();
+  const sun = sunAltAz(jdFromTdt(tTDT));
+  VIEW.az = sun.az; VIEW.alt = sun.alt;
+
+  const dansEclipse = Math.abs(tTDT - T0) <= ECL_VALID;
+  const c = dansEclipse ? circ(tTDT) : null;
+  const o = c ? obscuration(c) : 0;
+  const total = !!(c && c.total);
+
+  const { jour } = drawSky(sun.alt, o, total);
+  drawGrid(jour);
+  if (c) drawEclipse(c, sun, o, total); else drawSunOnly(sun);
+  return { c, o, sun, dansEclipse };
+}
+
+/* ============================================================
+   3. Interface
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+let contacts = findContacts();
+let mode = 'live', scrubT = 0, playStart = 0;
+let T_START = contacts.C1 - 6 / 60, T_END = contacts.C4 + 6 / 60;
+
+function dur(sec) {
+  sec = Math.max(0, Math.round(sec));
+  const j = Math.floor(sec / 86400), h = Math.floor(sec % 86400 / 3600),
+        m = Math.floor(sec % 3600 / 60), s = sec % 60;
+  if (j > 0) return `${j} j ${h} h`;
+  if (h > 0) return `${h} h ${String(m).padStart(2, '0')} min`;
+  return `${m} min ${String(s).padStart(2, '0')} s`;
+}
+const totSec = () => (contacts.C2 && contacts.C3) ? (contacts.C3 - contacts.C2) * 3600 : 0;
+
+function buildContacts() {
+  T_START = contacts.C1 - 6 / 60;
+  T_END = contacts.C4 + 6 / 60;
+  const span = T_END - T_START;
+  const inBand = !!contacts.C2;
+
+  const rows = inBand ? [
+    [contacts.C1, 'Premier contact', 'La Lune entame le bord du Soleil', false],
+    [contacts.C2, 'Deuxième contact', 'Anneau de diamant, puis la couronne — lunettes ôtées', true],
+    [contacts.MAX, 'Maximum', 'Milieu de la totalité', true],
+    [contacts.C3, 'Troisième contact', 'Le Soleil réapparaît — lunettes immédiatement', true],
+    [contacts.C4, 'Dernier contact', 'Fin de l\'éclipse', false],
+  ] : [
+    [contacts.C1, 'Premier contact', 'La Lune entame le bord du Soleil', false],
+    [(contacts.C1 + contacts.MAX) / 2, 'Mi-parcours', 'Le disque se creuse', false],
+    [contacts.MAX, 'Maximum', 'Hors de la bande de totalité : éclipse partielle', false],
+    [contacts.C4, 'Dernier contact', 'Fin de l\'éclipse', false],
+  ];
+
+  const ul = $('contacts');
+  ul.innerHTML = '';
+  for (const [t, nom, desc, isTot] of rows) {
+    const c = circ(t), o = obscuration(c);
+    const alt = sunAltAz(jdFromTdt(t)).alt;
+    const li = document.createElement('li');
+    if (isTot) li.className = 'tot';
+    li.innerHTML = `<span class="t">${fmtLocal(dateFromTdt(t))}</span>
+      <span class="n"><b>${nom}</b><span>${desc}</span></span>
+      <span class="d">${(o * 100).toFixed(0)} %<br>${alt.toFixed(0)}°</span>`;
+    li.dataset.t = t;
+    ul.appendChild(li);
+  }
+
+  $('mk1').textContent = fmtLocal(dateFromTdt(contacts.C1));
+  $('mk2').textContent = fmtLocal(dateFromTdt(contacts.MAX));
+  $('mk3').textContent = fmtLocal(dateFromTdt(contacts.C4));
+  $('mk2').style.left = ((contacts.MAX - T_START) / span * 100).toFixed(1) + '%';
+
+  const tm = $('totMark');
+  if (inBand) {
+    tm.style.display = 'block';
+    tm.style.left = ((contacts.C2 - T_START) / span * 100).toFixed(2) + '%';
+    tm.style.width = Math.max(0.6, (contacts.C3 - contacts.C2) / span * 100).toFixed(2) + '%';
+    const s = Math.round(totSec());
+    $('dDuree').innerHTML = `${Math.floor(s / 60)} <small>min</small> ${String(s % 60).padStart(2, '0')} <small>s</small>`;
+  } else {
+    tm.style.display = 'none';
+    $('dDuree').innerHTML = `— <small>hors bande</small>`;
+  }
+}
+
+function currentT() {
+  if (mode === 'live') return tdtFromDate(new Date());
+  if (mode === 'play') return T_START + (((performance.now() - playStart) / 40000) % 1) * (T_END - T_START);
+  return scrubT;
+}
+
+function updateStatut(t, c) {
+  const L = $('statutLabel'), V = $('statutVal');
+  V.className = 'val' + (mode === 'live' ? ' live' : '');
+  if (contacts.C2 && t >= contacts.C2 && t < contacts.C3) {
+    L.textContent = 'Totalité — reste';
+    V.textContent = dur((contacts.C3 - t) * 3600);
+    V.className = 'val tot';
+  } else if (t < contacts.C1) {
+    L.textContent = contacts.C2 ? 'Totalité dans' : 'Maximum dans';
+    V.textContent = dur(((contacts.C2 || contacts.MAX) - t) * 3600);
+  } else if (contacts.C2 && t < contacts.C2) {
+    L.textContent = 'Totalité dans';
+    V.textContent = dur((contacts.C2 - t) * 3600);
+  } else if (t < contacts.C4) {
+    L.textContent = 'Fin dans';
+    V.textContent = dur((contacts.C4 - t) * 3600);
+  } else {
+    L.textContent = 'Éclipse terminée';
+    V.textContent = 'Rendez-vous en 2028';
+  }
+}
+
+function tick() {
+  const t = currentT();
+  const { c, o, sun, dansEclipse } = render(t);
+  const d = dateFromTdt(t);
+
+  $('dHeure').textContent = fmtLocal(d, true);
+  $('dObsc').innerHTML = dansEclipse ? `${(o * 100).toFixed(1)} <small>%</small>` : '<small>hors éclipse</small>';
+  $('dMag').textContent = c ? Math.max(0, c.mag).toFixed(3) : '—';
+  $('dAlt').innerHTML = `${sun.alt.toFixed(1)}<small>\u00b0</small>`;
+  $('dAz').innerHTML = `${sun.az.toFixed(1)}<small>\u00b0</small>`;
+  $('tagLeft').textContent = mode === 'live'
+    ? 'En direct · ' + d.toLocaleDateString('fr-FR', { timeZone: TZ, day: 'numeric', month: 'short', year: 'numeric' })
+    : 'Simulation · 2 août 2027';
+  $('tagRight').textContent = sun.alt > 0
+    ? `${sun.alt.toFixed(0)}\u00b0 de hauteur · azimut ${sun.az.toFixed(0)}\u00b0`
+    : `sous l'horizon · azimut ${sun.az.toFixed(0)}\u00b0`;
+  $('scrubTime').textContent = fmtLocal(d);
+  $('totBand').classList.toggle('on', !!(c && c.total));
+  updateStatut(t);
+
+  const span = T_END - T_START;
+  const f = (t - T_START) / span;
+  $('fill').style.width = Math.max(0, Math.min(100, f * 100)).toFixed(1) + '%';
+  if (mode !== 'scrub') $('scrub').value = Math.max(0, Math.min(2000, f * 2000));
+
+  for (const li of $('contacts').children) {
+    li.classList.toggle('now', dansEclipse && Math.abs(parseFloat(li.dataset.t) - t) < 1.5 / 60);
+  }
+}
+
+function frame() {
+  try { tick(); } catch (e) { console.error('rendu:', e); }
+  requestAnimationFrame(frame);
+}
+
+/* ---- lieux ---- */
+function note(msg, cls) { const e = $('note'); e.textContent = msg || ''; e.className = 'note' + (cls ? ' ' + cls : ''); }
+
+function setSite(lat, lon, h, nom) {
+  site = { lat, lon, h, nom };
+  contacts = findContacts();
+  buildContacts();
+  if ($('btnTot').classList.contains('on')) {
+    scrubT = contacts.C2 ? (contacts.C2 + contacts.C3) / 2 : contacts.MAX;
+  }
+  $('lieuNom').textContent = nom;
+  if (typeof marquerLieu === 'function') marquerLieu(lat, lon);
+  $('coords').textContent = `${lat.toFixed(3)} N — ${Math.abs(lon).toFixed(3)} ${lon < 0 ? 'O' : 'E'}`;
+  $('inLat').value = lat.toFixed(4);
+  $('inLon').value = lon.toFixed(4);
+  const s = Math.round(totSec());
+  note(contacts.C2
+    ? `${nom} : ${Math.floor(s / 60)} min ${String(s % 60).padStart(2, '0')} s de totalité.`
+    : `${nom} est hors de la bande de totalité : éclipse partielle seulement, les lunettes ne se retirent à aucun moment.`,
+    contacts.C2 ? 'ok' : 'err');
+}
+
+const LIEUX = [
+  ['Tanger', 35.7595, -5.8340, 20, 1],
+  ['Asilah', 35.4650, -6.0350, 15, 1],
+  ['Tétouan', 35.5711, -5.3724, 30, 1],
+  ['Chefchaouen', 35.1688, -5.2636, 600, 1],
+  ['Al Hoceïma', 35.2494, -3.9372, 50, 1],
+  ['Nador', 35.1681, -2.9335, 20, 1],
+  ['Oujda', 34.6867, -1.9114, 470, 1],
+  ['Rabat', 34.0209, -6.8416, 20, 0],
+  ['Fès', 34.0331, -5.0003, 400, 0],
+  ['Casablanca', 33.5731, -7.5898, 50, 0],
+  ['Marrakech', 31.6295, -7.9811, 470, 0],
+  ['Dakhla', 23.6848, -15.9570, 10, 0],
+];
+const btnLieux = [];
+for (const [nom, la, lo, h, band] of LIEUX) {
+  const b = document.createElement('button');
+  b.textContent = nom;
+  if (!band) b.classList.add('hors');
+  b.dataset.la = la; b.dataset.lo = lo;
+  b.addEventListener('click', () => setSite(la, lo, h, nom));
+  $('presets').appendChild(b);
+  btnLieux.push(b);
+}
+/* correspondance sur les coordonnées, pas sur le libellé */
+function marquerLieu(lat, lon) {
+  for (const b of btnLieux) {
+    b.classList.toggle('on',
+      Math.abs(parseFloat(b.dataset.la) - lat) < 5e-4 &&
+      Math.abs(parseFloat(b.dataset.lo) - lon) < 5e-4);
+  }
+}
+
+function setActive(id) {
+  for (const k of ['btnLive', 'btnPlay', 'btnTot']) $(k).classList.toggle('on', k === id);
+}
+
+$('scrub').addEventListener('input', (e) => {
+  mode = 'scrub';
+  scrubT = T_START + (e.target.value / 2000) * (T_END - T_START);
+  setActive(null);
+});
+$('btnLive').addEventListener('click', () => { mode = 'live'; setActive('btnLive'); });
+$('btnPlay').addEventListener('click', () => {
+  mode = 'play'; playStart = performance.now(); setActive('btnPlay');
+});
+$('btnTot').addEventListener('click', () => {
+  mode = 'scrub';
+  scrubT = contacts.C2 ? (contacts.C2 + contacts.C3) / 2 : contacts.MAX;
+  setActive('btnTot');
+});
+$('btnApply').addEventListener('click', () => {
+  const num = (s) => parseFloat(String(s).replace(',', '.').replace(/[^\d.\-]/g, ''));
+  const lat = num($('inLat').value), lon = num($('inLon').value);
+  if (!isFinite(lat) || !isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+    note("Latitude entre −90 et 90, longitude entre −180 et 180. L'ouest s'écrit en négatif.", 'err');
+    return;
+  }
+  setSite(lat, lon, 50, 'Lieu choisi');
+});
+
+resize();
+window.addEventListener('resize', resize);
+buildContacts();
+setSite(site.lat, site.lon, site.h, site.nom);
+frame();
+</script>
+
+<script>
+/* enregistrement du service worker : icône d'accueil + fonctionnement hors connexion */
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch((e) => console.warn('SW:', e));
+  });
+}
+</script>
+</body>
+</html>
