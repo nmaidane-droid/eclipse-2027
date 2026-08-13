@@ -4,98 +4,69 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#070B1A">
+<title>Éclipses solaires — un siècle, où que vous soyez</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Éclipse 2027">
-<meta name="description" content="Éclipse totale de Soleil du 2 août 2027 : horaires, totalité et simulation en direct pour le Maroc.">
-<title>Éclipse totale du 2 août 2027 — Tanger</title>
+<meta name="apple-mobile-web-app-title" content="Éclipses">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --nuit:#070B1A;
-  --ardoise:#101A33;
-  --ardoise-2:#182444;
-  --brume:#8496BC;
-  --craie:#F4EFE6;
-  --safran:#E0A33C;
-  --corail:#C4573E;
-  --perle:#DCE6F5;
-  --trait:rgba(132,150,188,.18);
-}
+:root{--nuit:#070B1A;--ardoise:#101A33;--ardoise2:#182444;--brume:#8496BC;--craie:#F4EFE6;
+      --safran:#E0A33C;--corail:#C4573E;--perle:#DCE6F5;--trait:rgba(132,150,188,.18)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
-body{
-  background:var(--nuit);color:var(--craie);
-  font-family:'Inter',system-ui,-apple-system,sans-serif;
-  font-size:15px;line-height:1.5;overflow-x:hidden;
-  padding:0 0 env(safe-area-inset-bottom);
-}
+body{background:var(--nuit);color:var(--craie);font-family:'Inter',system-ui,sans-serif;
+     font-size:15px;line-height:1.5;overflow-x:hidden;padding:0 0 env(safe-area-inset-bottom)}
 .wrap{max-width:560px;margin:0 auto;padding:22px 18px 48px}
-
-.eyebrow{
-  font-family:'IBM Plex Mono',ui-monospace,monospace;
-  font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brume);
-  display:flex;justify-content:space-between;gap:10px;
-  border-bottom:1px solid var(--trait);padding-bottom:9px;margin-bottom:16px;
-}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--brume);display:flex;justify-content:space-between;
+  gap:10px;border-bottom:1px solid var(--trait);padding-bottom:9px;margin-bottom:16px}
 h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:34px;
-   line-height:1.05;letter-spacing:-.01em;margin:0 0 4px}
+   line-height:1.05;margin:0 0 4px}
 h1 em{font-style:italic;color:var(--safran)}
 .sub{color:var(--brume);font-size:13.5px;margin:0 0 20px}
-
 .statut{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 12px}
 .statut .label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--brume)}
 .statut .val{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;
-  font-size:27px;font-weight:300;letter-spacing:-.01em}
+  font-size:27px;font-weight:300}
 .statut .val.live{color:var(--safran)}
 .statut .val.tot{color:var(--perle);font-weight:400}
-
-.scene{position:relative;border-radius:14px;overflow:hidden;
-  border:1px solid var(--trait);background:#03050C;aspect-ratio:1/1}
+.scene{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--trait);
+  background:#03050C;aspect-ratio:1/1}
 .scene canvas{display:block;width:100%;height:100%}
-.scene .tagbar{
-  position:absolute;left:0;right:0;top:0;display:flex;align-items:baseline;
+.tagbar{position:absolute;left:0;right:0;top:0;display:flex;align-items:baseline;
   justify-content:space-between;gap:12px;padding:9px 10px;pointer-events:none;
   font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;
-  text-transform:uppercase;color:rgba(244,239,230,.62);
-  text-shadow:0 1px 3px rgba(0,0,0,.75);
-}
-.scene .tagbar .l{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.scene .tagbar .r{flex:0 0 auto;white-space:nowrap;text-align:right}
-.scene .totband{
-  position:absolute;left:0;right:0;bottom:0;padding:9px 12px;
+  text-transform:uppercase;color:rgba(244,239,230,.62);text-shadow:0 1px 3px rgba(0,0,0,.75)}
+.tagbar .l{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tagbar .r{flex:0 0 auto;white-space:nowrap;text-align:right}
+.totband{position:absolute;left:0;right:0;bottom:0;padding:9px 12px;
   background:linear-gradient(0deg,rgba(3,5,12,.92),rgba(3,5,12,0));
   font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--perle);text-align:center;
-  opacity:0;transition:opacity .4s;pointer-events:none;
-}
-.scene .totband.on{opacity:1}
-
+  text-transform:uppercase;color:var(--perle);text-align:center;opacity:0;
+  transition:opacity .4s;pointer-events:none}
+.totband.on{opacity:1}
 .bar{margin:16px 0 4px}
-.bar .track{height:5px;border-radius:3px;background:var(--ardoise-2);position:relative;overflow:hidden}
-.bar .fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--corail),var(--safran));width:0%}
+.bar .track{height:5px;border-radius:3px;background:var(--ardoise2);position:relative;overflow:hidden}
+.bar .fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--corail),var(--safran));width:0}
 .bar .tot{position:absolute;top:0;bottom:0;background:var(--perle);opacity:.85}
 .bar .marks{position:relative;height:14px;margin-top:5px}
-.bar .marks span{position:absolute;transform:translateX(-50%);
-  font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--brume);letter-spacing:.08em}
-
+.bar .marks span{position:absolute;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;
+  font-size:10px;color:var(--brume)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--trait);
   border:1px solid var(--trait);border-radius:12px;overflow:hidden;margin:20px 0 0}
 .cell{background:var(--nuit);padding:12px 13px}
 .cell dt{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;
   text-transform:uppercase;color:var(--brume);margin:0 0 4px}
-.cell dd{margin:0;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;
-  font-size:18px}
+.cell dd{margin:0;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;font-size:18px}
 .cell dd small{font-size:11px;color:var(--brume);font-weight:300}
 .cell.hi dd{color:var(--perle)}
-
 h2{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;
   text-transform:uppercase;color:var(--brume);margin:28px 0 10px;padding-bottom:8px;
   border-bottom:1px solid var(--trait)}
@@ -111,14 +82,13 @@ h2{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-s
 .contacts .n span{color:var(--brume);font-size:12px}
 .contacts .d{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--brume);
   text-align:right;white-space:nowrap}
-
 .ctrl{margin:26px 0 0}
 .ctrl .row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .ctrl label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;
   text-transform:uppercase;color:var(--brume)}
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;margin:0}
-input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--ardoise-2);border-radius:2px}
-input[type=range]::-moz-range-track{height:3px;background:var(--ardoise-2);border-radius:2px}
+input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--ardoise2);border-radius:2px}
+input[type=range]::-moz-range-track{height:3px;background:var(--ardoise2);border-radius:2px}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
   background:var(--safran);border:none;margin-top:-7.5px;box-shadow:0 0 0 4px rgba(224,163,60,.16)}
 input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--safran);border:none}
@@ -126,47 +96,48 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 button{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--craie);background:var(--ardoise);border:1px solid var(--trait);
   padding:10px 14px;border-radius:9px;cursor:pointer;transition:background .15s,border-color .15s}
-button:hover{background:var(--ardoise-2)}
+button:hover{background:var(--ardoise2)}
 button.on{background:var(--safran);color:#150F04;border-color:var(--safran);font-weight:500}
 button:focus-visible{outline:2px solid var(--safran);outline-offset:2px}
-
-.lieux{margin:18px 0 0;padding-top:16px;border-top:1px solid var(--trait)}
-.lieux > label{display:block;margin-bottom:10px}
-.lieux .presets{display:flex;gap:7px;flex-wrap:wrap}
-.lieux .presets button{padding:7px 11px;font-size:10px;letter-spacing:.1em}
-.lieux .presets button.hors{opacity:.62}
-.lieux .presets button.on{opacity:1}
+.liste{max-height:340px;overflow-y:auto;border:1px solid var(--trait);border-radius:12px;
+  -webkit-overflow-scrolling:touch}
+.liste::-webkit-scrollbar{width:6px}
+.liste::-webkit-scrollbar-thumb{background:var(--ardoise2);border-radius:3px}
+.ecl{display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center;
+  padding:11px 13px;border-bottom:1px solid var(--trait);cursor:pointer}
+.ecl:last-child{border-bottom:none}
+.ecl:hover{background:var(--ardoise)}
+.ecl.on{background:var(--ardoise2)}
+.ecl .dt{font-family:'IBM Plex Mono',monospace;font-size:13px;font-variant-numeric:tabular-nums;
+  min-width:78px;color:var(--craie)}
+.ecl .ty{font-size:13px}
+.ecl .ty b{font-weight:500}
+.ecl .ty small{display:block;color:var(--brume);font-size:11.5px;
+  font-family:'IBM Plex Mono',monospace}
+.ecl .ob{font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:right;white-space:nowrap}
+.ecl.totale .ob{color:var(--perle);font-weight:500}
+.ecl.totale .dt{color:var(--perle)}
+.rech{width:100%;font-family:'IBM Plex Mono',monospace;font-size:14px;padding:11px 12px;
+  border-radius:9px;background:var(--ardoise);border:1px solid var(--trait);color:var(--craie);
+  margin-bottom:10px}
+.rech:focus{outline:none;border-color:var(--safran)}
+.villes{max-height:230px;overflow-y:auto;border:1px solid var(--trait);border-radius:12px}
+.ville{display:flex;justify-content:space-between;gap:10px;padding:10px 13px;
+  border-bottom:1px solid var(--trait);cursor:pointer;font-size:14px}
+.ville:last-child{border-bottom:none}
+.ville:hover{background:var(--ardoise)}
+.ville.on{background:var(--ardoise2);color:var(--safran)}
+.ville small{color:var(--brume);font-family:'IBM Plex Mono',monospace;font-size:11px}
 .note{margin:11px 0 0;font-size:12.5px;line-height:1.45;color:var(--brume)}
 .note.ok{color:var(--safran)}
 .note.err{color:#EFA48E}
 .note:empty{display:none}
-
 .warn{margin:28px 0 0;padding:14px 15px;border-radius:12px;
   background:rgba(196,87,62,.12);border:1px solid rgba(196,87,62,.4)}
 .warn b{color:#F0AC93;display:block;font-size:13px;margin-bottom:4px}
 .warn p{margin:0 0 9px;font-size:13px;color:#E7D3C9;line-height:1.45}
 .warn p:last-child{margin-bottom:0}
 .warn .ok{color:var(--perle)}
-
-
-.diag{margin:26px 0 0;border:1px solid var(--trait);border-radius:12px;overflow:hidden}
-.diag summary{
-  padding:12px 14px;cursor:pointer;list-style:none;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.15em;
-  text-transform:uppercase;color:var(--brume);
-}
-.diag summary::-webkit-details-marker{display:none}
-.diag summary::after{content:' \25be'}
-.diag[open] summary::after{content:' \25b4'}
-.diag ul{list-style:none;margin:0;padding:0 14px 14px}
-.diag li{
-  display:flex;gap:9px;align-items:flex-start;padding:6px 0;
-  font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.45;color:var(--brume);
-}
-.diag li b{flex:0 0 auto;width:14px;text-align:center;font-weight:500}
-.diag li.ok b{color:#57C08A}
-.diag li.ko b{color:#EFA48E}
-.diag li.ko{color:#EFA48E}
 footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--trait);
   font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.7;
   color:var(--brume);letter-spacing:.03em}
@@ -175,36 +146,23 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--trait);
 </head>
 <body>
 <div class="wrap">
+  <div class="eyebrow"><span id="lieuNom">Tanger</span><span id="coords">—</span></div>
+  <h1 id="titre">Éclipses <em>solaires</em></h1>
+  <p class="sub" id="sousTitre">Un siècle d'éclipses, calculées pour le lieu de votre choix.</p>
 
-  <div class="eyebrow">
-    <span id="lieuNom">Tanger · Maroc</span>
-    <span id="coords">35.760 N — 5.834 O</span>
-  </div>
-
-  <h1>Cinq minutes de <em>nuit</em></h1>
-  <p class="sub">Éclipse totale du lundi 2 août 2027, calculée en direct sur l'heure de votre téléphone. Heures locales du Maroc (UTC+1). Le Soleil sera à 38° au-dessus de l'horizon est — aucun problème de dégagement, contrairement à 2026.</p>
-
-  <div class="statut">
-    <span class="label" id="statutLabel">Totalité dans</span>
-    <span class="val live" id="statutVal">—</span>
-  </div>
+  <div class="statut"><span class="label" id="statutLabel">—</span><span class="val live" id="statutVal">—</span></div>
 
   <div class="scene">
     <canvas id="sky"></canvas>
-    <div class="tagbar">
-      <span class="l" id="tagLeft">Vue vers l'est</span>
-      <span class="r" id="tagRight">—</span>
-    </div>
+    <div class="tagbar"><span class="l" id="tagLeft">—</span><span class="r" id="tagRight">—</span></div>
     <div class="totband" id="totBand">Totalité — lunettes retirées</div>
   </div>
 
   <div class="bar">
     <div class="track"><div class="fill" id="fill"></div><div class="tot" id="totMark" style="display:none"></div></div>
-    <div class="marks">
-      <span id="mk1" style="left:0;transform:none">—</span>
+    <div class="marks"><span id="mk1" style="left:0;transform:none">—</span>
       <span id="mk2" style="left:50%">—</span>
-      <span id="mk3" style="left:100%;transform:translateX(-100%)">—</span>
-    </div>
+      <span id="mk3" style="left:100%;transform:translateX(-100%)">—</span></div>
   </div>
 
   <dl class="grid">
@@ -216,796 +174,695 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--trait);
     <div class="cell"><dt>Azimut</dt><dd id="dAz">—</dd></div>
   </dl>
 
-  <h2>Le déroulé de la matinée</h2>
+  <h2>Le déroulé</h2>
   <ul class="contacts" id="contacts"></ul>
 
   <div class="ctrl">
-    <div class="row">
-      <label for="scrub">Parcourir la matinée</label>
-      <span style="flex:1"></span>
-      <span class="label" id="scrubTime" style="font-variant-numeric:tabular-nums"></span>
-    </div>
+    <div class="row"><label for="scrub">Parcourir</label><span style="flex:1"></span>
+      <span class="label" id="scrubTime"></span></div>
     <input type="range" id="scrub" min="0" max="2000" value="0" step="1" aria-label="Parcourir l'éclipse">
     <div class="btns">
       <button id="btnLive" class="on">En direct</button>
       <button id="btnPlay">Rejouer en 40 s</button>
-      <button id="btnTot">Aller à la totalité</button>
-      <button id="btnGeo">Utiliser ma position</button>
-    </div>
-
-    <div class="lieux">
-      <label>Lieu d'observation</label>
-      <div class="presets" id="presets"></div>
-      <p class="note" id="note"></p>
+      <button id="btnTot">Aller au maximum</button>
     </div>
   </div>
+
+  <h2 id="titreListe">Éclipses visibles depuis ce lieu</h2>
+  <div class="liste" id="listeEcl"></div>
+
+  <h2>Lieu d'observation</h2>
+  <input class="rech" id="rech" type="text" inputmode="search" placeholder="Chercher une ville…" aria-label="Chercher une ville">
+  <div class="villes" id="listeVilles"></div>
+  <div class="btns" style="margin-top:10px"><button id="btnGeo">Utiliser ma position</button></div>
+  <p class="note" id="note"></p>
 
   <div class="warn">
     <b>Lunettes ISO 12312-2 obligatoires — sauf pendant la totalité</b>
-    <p>Du premier au deuxième contact, puis du troisième au quatrième, le Soleil brûle la rétine sans douleur. Jamais à l'œil nu, jamais de jumelles ou d'appareil photo sans filtre devant l'objectif.</p>
-    <p class="ok">Entre C2 et C3, et seulement là, on retire les lunettes : c'est le seul moyen de voir la couronne, et elle ne présente aucun danger. Remettez-les dès la première étincelle du troisième contact.</p>
+    <p>Hors totalité, le Soleil brûle la rétine sans douleur. Jamais à l'œil nu, jamais de jumelles ou d'appareil photo sans filtre devant l'objectif.</p>
+    <p class="ok">Entre le deuxième et le troisième contact, et seulement là, on retire les lunettes. Une éclipse annulaire ou partielle ne le permet à aucun moment.</p>
   </div>
 
-
-  <details class="diag">
-    <summary>Diagnostic d'installation</summary>
-    <ul id="diagList"><li><b>·</b><span>Vérification en cours…</span></li></ul>
-  </details>
-
-  <footer>
-    Calculs : éléments besséliens NASA/GSFC (F. Espenak), Saros 136, méthode Meeus ch. 54, ΔT = 76,0 s.<br>
-    Vérifié : Tétouan C2 09:45:03 / C4 11:01:02, conforme aux éphémérides publiées ; Louxor 6 min 20 s.<br>
-    Taille des astres exagérée ; positions, angles, durées et horaires réels. Couronne et protubérances schématiques.
-  </footer>
+  <footer id="pied"></footer>
 </div>
-
 <script>
-"use strict";
-/* ============================================================
-   1. Éléments besséliens — éclipse totale du 2 août 2027
-   t0 = 2027 Aug 02 10:00:00.0 TDT,  ΔT = 76.0 s,  Saros 136
-   ============================================================ */
-const BX  = [-0.0197720, 0.5447123, -0.0000446, -0.0000092];
-const BY  = [0.1600610, -0.2111582, -0.0001217, 0.0000038];
-const BD  = [17.7624702, -0.0101810, -0.0000040, 0];
-const BL1 = [0.5305960, 0.0000138, -0.0000128, 0];
-const BL2 = [-0.0154640, 0.0000137, -0.0000128, 0];
-const BMU = [328.422546, 15.002100, 0, 0];
-const TANF1 = 0.0046064, TANF2 = 0.0045834, DELTAT = 76.0, T0 = 10.0;
+/* Moteur d'eclipses — genere automatiquement depuis les tables Python validees. */
+const ELP_A=[[0,0,1,0,6288774,-20905355],[2,0,-1,0,1274027,-3699111],[2,0,0,0,658314,-2955968],[0,0,2,0,213618,-569925],[0,1,0,0,-185116,48888],[0,0,0,2,-114332,-3149],[2,0,-2,0,58793,246158],[2,-1,-1,0,57066,-152138],[2,0,1,0,53322,-170733],[2,-1,0,0,45758,-204586],[0,1,-1,0,-40923,-129620],[1,0,0,0,-34720,108743],[0,1,1,0,-30383,104755],[2,0,0,-2,15327,10321],[0,0,1,2,-12528,0],[0,0,1,-2,10980,79661],[4,0,-1,0,10675,-34782],[0,0,3,0,10034,-23210],[4,0,-2,0,8548,-21636],[2,1,-1,0,-7888,24208],[2,1,0,0,-6766,30824],[1,0,-1,0,-5163,-8379],[1,1,0,0,4987,-16675],[2,-1,1,0,4036,-12831],[2,0,2,0,3994,-10445],[4,0,0,0,3861,-11650],[2,0,-3,0,3665,14403],[0,1,-2,0,-2689,-7003],[2,0,-1,2,-2602,0],[2,-1,-2,0,2390,10056],[1,0,1,0,-2348,6322],[2,-2,0,0,2236,-9884],[0,1,2,0,-2120,5751],[0,2,0,0,-2069,0],[2,-2,-1,0,2048,-4950],[2,0,1,-2,-1773,4130],[2,0,0,2,-1595,0],[4,-1,-1,0,1215,-3958],[0,0,2,2,-1110,0],[3,0,-1,0,-892,3258],[2,1,1,0,-810,2616],[4,-1,-2,0,759,-1897],[0,2,-1,0,-713,-2117],[2,2,-1,0,-700,2354],[2,1,-2,0,691,0],[2,-1,0,-2,596,0],[4,0,1,0,549,-1423],[0,0,4,0,537,-1117],[4,-1,0,0,520,-1571],[1,0,-2,0,-487,-1739],[2,1,0,-2,-399,0],[0,0,2,-2,-381,-4421],[1,1,1,0,351,0],[3,0,-2,0,-340,0],[4,0,-3,0,330,0],[2,-1,2,0,327,0],[0,2,1,0,-323,1165],[1,1,-1,0,299,0],[2,0,3,0,294,0],[2,0,-1,-2,0,8752]];
+const ELP_B=[[0,0,0,1,5128122],[0,0,1,1,280602],[0,0,1,-1,277693],[2,0,0,-1,173237],[2,0,-1,1,55413],[2,0,-1,-1,46271],[2,0,0,1,32573],[0,0,2,1,17198],[2,0,1,-1,9266],[0,0,2,-1,8822],[2,-1,0,-1,8216],[2,0,-2,-1,4324],[2,0,1,1,4200],[2,1,0,-1,-3359],[2,-1,-1,1,2463],[2,-1,0,1,2211],[2,-1,-1,-1,2065],[0,1,-1,-1,-1870],[4,0,-1,-1,1828],[0,1,0,1,-1794],[0,0,0,3,-1749],[0,1,-1,1,-1565],[1,0,0,1,-1491],[0,1,1,1,-1475],[0,1,1,-1,-1410],[0,1,0,-1,-1344],[1,0,0,-1,-1335],[0,0,3,1,1107],[4,0,0,-1,1021],[4,0,-1,1,833],[0,0,1,-3,777],[4,0,-2,1,671],[2,0,0,-3,607],[2,0,2,-1,596],[2,-1,1,-1,491],[2,0,-2,1,-451],[0,0,3,-1,439],[2,0,2,1,422],[2,0,-3,-1,421],[2,1,-1,1,-366],[2,1,0,1,-351],[4,0,0,1,331],[2,-1,1,1,315],[2,-2,0,-1,302],[0,0,1,3,-283],[2,1,1,-1,-229],[1,1,0,-1,223],[1,1,0,1,223],[0,1,-2,-1,-220],[2,1,-1,-1,-220],[1,0,1,1,-185],[2,-1,-2,-1,181],[0,1,2,1,-177],[4,0,-2,-1,176],[4,-1,-1,-1,166],[1,0,1,-1,-164],[4,0,1,-1,132],[1,0,-1,-1,-119],[4,-1,0,-1,115],[2,-2,0,1,107]];
+const VS_L0=[[175347046,0,0],[3341656,4.6692568,6283.07585],[34894,4.6261,12566.1517],[3497,2.7441,5753.3849],[3418,2.8289,3.5231],[3136,3.6277,77713.7715],[2676,4.4181,7860.4194],[2343,6.1352,3930.2097],[1324,0.7425,11506.7698],[1273,2.0371,529.691],[1199,1.1096,1577.3435],[990,5.233,5884.927],[902,2.045,26.298],[857,3.508,398.149],[780,1.179,5223.694],[753,2.533,5507.553],[505,4.583,18849.228],[492,4.205,775.523],[357,2.92,0.067],[317,5.849,11790.629],[284,1.899,796.298],[271,0.315,10977.079],[243,0.345,5486.778],[206,4.806,2544.314],[205,1.869,5573.143],[202,2.458,6069.777],[156,0.833,213.299],[132,3.411,2942.463],[126,1.083,20.775],[115,0.645,0.98],[103,0.636,4694.003],[102,0.976,15720.839],[102,4.267,7.114],[99,6.21,2146.17],[98,0.68,155.42],[86,5.98,161000.69],[85,1.3,6275.96],[85,3.67,71430.7],[80,1.81,17260.15],[79,3.04,12036.46],[75,1.76,5088.63],[74,3.5,3154.69],[74,4.68,801.82],[70,0.83,9437.76],[62,3.98,8827.39],[61,1.82,7084.9],[57,2.78,6286.6],[56,4.39,14143.5],[56,3.47,6279.55],[52,0.19,12139.55],[52,1.33,1748.02],[51,0.28,5856.48],[49,0.49,1194.45],[41,5.37,8429.24],[41,2.4,19651.05],[39,6.17,10447.39],[37,6.04,10213.29],[37,2.57,1059.38],[36,1.71,2352.87],[36,1.78,6812.77],[33,0.59,17789.85],[30,0.44,83996.85],[30,2.74,1349.87],[25,3.16,4690.48]];
+const VS_L1=[[628331966747,0,0],[206059,2.678235,6283.07585],[4303,2.6351,12566.1517],[425,1.59,3.523],[119,5.796,26.298],[109,2.966,1577.344],[93,2.59,18849.23],[72,1.14,529.69],[68,1.87,398.15],[67,4.41,5507.55],[59,2.89,5223.69],[56,2.17,155.42],[45,0.4,796.3],[36,0.47,775.52],[29,2.65,7.11],[21,5.34,0.98],[19,1.85,5486.78],[19,4.97,213.3],[17,2.99,6275.96],[16,0.03,2544.31],[16,1.43,2146.17],[15,1.21,10977.08],[12,2.83,1748.02],[12,3.26,5088.63],[12,5.27,1194.45],[12,2.08,4694.0],[11,0.77,553.57],[10,1.3,6286.6],[10,4.24,1349.87],[9,2.7,242.73],[9,5.64,951.72],[8,5.3,2352.87],[6,2.65,9437.76],[6,4.67,4690.48]];
+const VS_L2=[[52919,0,0],[8720,1.0721,6283.0758],[309,0.867,12566.152],[27,0.05,3.52],[16,5.19,26.3],[16,3.68,155.42],[10,0.76,18849.23],[9,2.06,77713.77],[7,0.83,775.52],[5,4.66,1577.34],[4,1.03,7.11],[4,3.44,5573.14],[3,5.14,796.3],[3,6.05,5507.55],[3,1.19,242.73],[3,6.12,529.69],[3,0.31,398.15],[3,2.28,553.57],[2,4.38,5223.69],[2,3.75,0.98]];
+const VS_L3=[[289,5.844,6283.076],[35,0,0],[17,5.49,12566.15],[3,5.2,155.42],[1,4.72,3.52],[1,5.3,18849.23],[1,5.97,242.73]];
+const VS_L4=[[114,3.142,0],[8,4.13,6283.08],[1,3.84,12566.15]];
+const VS_L5=[[1,3.14,0]];
+const VS_B0=[[280,3.199,84334.662],[102,5.422,5507.553],[80,3.88,5223.69],[44,3.7,2352.87],[32,4.0,1577.34]];
+const VS_B1=[[9,3.9,5507.55],[6,1.73,5223.69]];
+const VS_R0=[[100013989,0,0],[1670700,3.0984635,6283.07585],[13956,3.05525,12566.1517],[3084,5.1985,77713.7715],[1628,1.1739,5753.3849],[1576,2.8469,7860.4194],[925,5.453,11506.77],[542,4.564,3930.21],[472,3.661,5884.927],[346,0.964,5507.553],[329,5.9,5223.694],[307,0.299,5573.143],[243,4.273,11790.629],[212,5.847,1577.344],[186,5.022,10977.079],[175,3.012,18849.228],[110,5.055,5486.778],[98,0.89,6069.78],[86,5.69,15720.84],[86,1.27,161000.69],[65,0.27,17260.15],[63,0.92,529.69],[57,2.01,83996.85],[56,5.24,71430.7],[49,3.25,2544.31],[47,2.58,775.52],[45,5.54,9437.76],[43,6.01,6275.96],[39,5.36,4694.0],[38,2.39,8827.39],[37,0.83,19651.05],[37,4.9,12139.55],[36,1.67,12036.46],[35,1.84,2942.46],[33,0.24,7084.9],[32,0.18,5088.63],[32,1.78,398.15],[28,1.21,6286.6],[28,1.9,6279.55],[26,4.59,10447.39]];
+const VS_R1=[[103019,1.10749,6283.07585],[1721,1.0644,12566.1517],[702,3.142,0],[32,1.02,18849.23],[31,2.84,5507.55],[25,1.32,5223.69],[18,1.42,1577.34],[10,5.91,10977.08],[9,1.42,6275.96],[9,0.27,5486.78]];
+const VS_R2=[[4359,5.7846,6283.0758],[124,5.579,12566.152],[12,3.14,0],[9,3.63,77713.77],[6,1.87,5573.14],[3,5.47,18849.23]];
+const VS_R3=[[145,4.273,6283.076],[7,3.92,12566.15]];
+const VS_R4=[[4,2.56,6283.08]];
 
-const RAD = Math.PI / 180, DEG = 180 / Math.PI;
-const J0 = 2461619.5;                        // 2027-08-02 00:00 UT
-const DAY0 = Date.UTC(2027, 7, 2, 0, 0, 0);
-const TZ = 'Africa/Casablanca';
+const D2R=Math.PI/180, R2D=180/Math.PI;
+const RE_KM=6378.137, K_PEN=0.2725076, K_OMB=0.2722810, K_SOL=109.1225, UA_KM=149597870.7;
 
-const poly = (c, t) => c[0] + c[1] * t + c[2] * t * t + c[3] * t * t * t;
-
-let site = { lat: 35.7595, lon: -5.8340, h: 20, nom: 'Tanger' };
-
-function circ(tTDT) {
-  const tt = tTDT - T0;
-  const x = poly(BX, tt), y = poly(BY, tt);
-  const d = poly(BD, tt) * RAD;
-  const l1 = poly(BL1, tt), l2 = poly(BL2, tt);
-  const mu = poly(BMU, tt);
-
-  const latR = site.lat * RAD;
-  const u = Math.atan(0.99664719 * Math.tan(latR));
-  const rs = 0.99664719 * Math.sin(u) + (site.h / 6378140) * Math.sin(latR);
-  const rc = Math.cos(u) + (site.h / 6378140) * Math.cos(latR);
-
-  const H = (mu + site.lon - 0.00417807 * DELTAT) * RAD;
-  const xi   = rc * Math.sin(H);
-  const eta  = rs * Math.cos(d) - rc * Math.cos(H) * Math.sin(d);
-  const zeta = rs * Math.sin(d) + rc * Math.cos(H) * Math.cos(d);
-
-  const U = x - xi, V = y - eta;
-  const m = Math.hypot(U, V);
-  const L1p = l1 - zeta * TANF1;
-  const L2p = l2 - zeta * TANF2;
-  return {
-    m, L1p, L2p, U, V, zeta,
-    rSun: (L1p + L2p) / 2,
-    rMoon: (L1p - L2p) / 2,
-    mag: (L1p - m) / (L1p + L2p),
-    total: m < -L2p            // L2' négatif = ombre, totalité si m plus petit
-  };
-}
-
-function obscuration(c) {
-  const { m, rSun: rs, rMoon: rm } = c;
-  if (m >= rs + rm) return 0;
-  if (m <= Math.abs(rm - rs)) return rm >= rs ? 1 : (rm / rs) ** 2;
-  const ca = Math.max(-1, Math.min(1, (m * m + rs * rs - rm * rm) / (2 * m * rs)));
-  const cb = Math.max(-1, Math.min(1, (m * m + rm * rm - rs * rs) / (2 * m * rm)));
-  const A = Math.acos(ca), B = Math.acos(cb);
-  return (rs * rs * (A - ca * Math.sin(A)) + rm * rm * (B - cb * Math.sin(B))) / (Math.PI * rs * rs);
-}
-
-function sunAltAz(jdUT) {
-  const T = (jdUT + DELTAT / 86400 - 2451545) / 36525;
-  const L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
-  const M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;
-  const C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M * RAD)
-          + (0.019993 - 0.000101 * T) * Math.sin(2 * M * RAD)
-          + 0.000289 * Math.sin(3 * M * RAD);
-  const Om = 125.04 - 1934.136 * T;
-  const lam = L0 + C - 0.00569 - 0.00478 * Math.sin(Om * RAD);
-  const eps = 23 + 26 / 60 + 21.448 / 3600
-            - (46.8150 * T + 0.00059 * T * T - 0.001813 * T ** 3) / 3600
-            + 0.00256 * Math.cos(Om * RAD);
-  const ra  = Math.atan2(Math.cos(eps * RAD) * Math.sin(lam * RAD), Math.cos(lam * RAD));
-  const dec = Math.asin(Math.sin(eps * RAD) * Math.sin(lam * RAD));
-  const Tu = (jdUT - 2451545) / 36525;
-  const gmst = (280.46061837 + 360.98564736629 * (jdUT - 2451545) + 0.000387933 * Tu * Tu) % 360;
-  const H = (gmst + site.lon - ra * DEG) * RAD;
-  const latR = site.lat * RAD;
-  const alt = Math.asin(Math.sin(latR) * Math.sin(dec) + Math.cos(latR) * Math.cos(dec) * Math.cos(H));
-  const az  = Math.atan2(-Math.sin(H), Math.tan(dec) * Math.cos(latR) - Math.sin(latR) * Math.cos(H));
-  return { alt: alt * DEG, az: ((az * DEG) % 360 + 360) % 360 };
-}
-
-/* Contacts C1, C2, maximum, C3, C4 — heures TDT */
-function findContacts() {
-  const step = 4 / 3600;
-  let pP = null, pU = null;
-  const r = { C1: null, C2: null, C3: null, C4: null, MAX: 0 };
-  let best = -9;
-  for (let t = 6.5; t < 13.5; t += step) {
-    const c = circ(t);
-    const fP = c.m - c.L1p;        // pénombre : < 0 pendant l'éclipse
-    const fU = c.m + c.L2p;        // ombre    : < 0 pendant la totalité
-    if (c.mag > best) { best = c.mag; r.MAX = t; }
-    if (pP !== null) {
-      if (pP > 0 && fP <= 0 && r.C1 === null) r.C1 = t;
-      if (pP < 0 && fP >= 0 && r.C1 !== null && r.C4 === null) r.C4 = t;
-      if (pU > 0 && fU <= 0 && r.C2 === null) r.C2 = t;
-      if (pU < 0 && fU >= 0 && r.C2 !== null && r.C3 === null) r.C3 = t;
-    }
-    pP = fP; pU = fU;
+function lune(T){
+  const Lp=218.3164477+481267.88123421*T-0.0015786*T*T+T**3/538841-T**4/65194000;
+  const D =297.8501921+445267.1114034*T-0.0018819*T*T+T**3/545868-T**4/113065000;
+  const M =357.5291092+35999.0502909*T-0.0001536*T*T+T**3/24490000;
+  const Mp=134.9633964+477198.8675055*T+0.0087414*T*T+T**3/69699-T**4/14712000;
+  const F = 93.2720950+483202.0175233*T-0.0036539*T*T-T**3/3526000+T**4/863310000;
+  const A1=119.75+131.849*T, A2=53.09+479264.290*T, A3=313.45+481266.484*T;
+  const E=1-0.002516*T-0.0000074*T*T;
+  let sl=0, sr=0, sb=0;
+  for(const [d,m,mp,f,cl,cr] of ELP_A){
+    const a=(d*D+m*M+mp*Mp+f*F)*D2R, e=Math.pow(E,Math.abs(m));
+    sl+=cl*e*Math.sin(a); sr+=cr*e*Math.cos(a);
   }
-  const refine = (t, umbra) => {
-    if (t === null) return null;
-    const f = (x) => { const c = circ(x); return umbra ? c.m + c.L2p : c.m - c.L1p; };
-    let a = t - step, b = t + step;
-    for (let i = 0; i < 45; i++) {
-      const mid = (a + b) / 2;
-      if (Math.sign(f(mid)) === Math.sign(f(a))) a = mid; else b = mid;
-    }
-    return (a + b) / 2;
-  };
-  return {
-    C1: refine(r.C1, false), C4: refine(r.C4, false),
-    C2: refine(r.C2, true),  C3: refine(r.C3, true),
-    MAX: r.MAX
-  };
+  for(const [d,m,mp,f,cb] of ELP_B){
+    const a=(d*D+m*M+mp*Mp+f*F)*D2R;
+    sb+=cb*Math.pow(E,Math.abs(m))*Math.sin(a);
+  }
+  sl+=3958*Math.sin(A1*D2R)+1962*Math.sin((Lp-F)*D2R)+318*Math.sin(A2*D2R);
+  sb+=-2235*Math.sin(Lp*D2R)+382*Math.sin(A3*D2R)+175*Math.sin((A1-F)*D2R)
+      +175*Math.sin((A1+F)*D2R)+127*Math.sin((Lp-Mp)*D2R)-115*Math.sin((Lp+Mp)*D2R);
+  return {lam:(Lp+sl/1e6)%360, bet:sb/1e6, dist:385000.56+sr/1000};
 }
 
-const dateFromTdt = (t) => new Date(DAY0 + (t - DELTAT / 3600) * 3600000);
-const tdtFromDate = (d) => (d.getTime() - DAY0) / 3600000 + DELTAT / 3600;
-const jdFromTdt   = (t) => J0 + (t - DELTAT / 3600) / 24;
-const fmtLocal = (d, sec) => d.toLocaleTimeString('fr-FR', {
-  timeZone: TZ, hour: '2-digit', minute: '2-digit',
-  ...(sec ? { second: '2-digit' } : {}), hour12: false
-});
+function serie(t,tau){ let s=0; for(const [a,b,c] of t) s+=a*Math.cos(b+c*tau); return s; }
+function soleil(T){
+  const tau=T/10;
+  const Ls=[VS_L0,VS_L1,VS_L2,VS_L3,VS_L4,VS_L5], Bs=[VS_B0,VS_B1], Rs=[VS_R0,VS_R1,VS_R2,VS_R3,VS_R4];
+  let L=0,B=0,R=0;
+  Ls.forEach((t,i)=>L+=serie(t,tau)*Math.pow(tau,i));
+  Bs.forEach((t,i)=>B+=serie(t,tau)*Math.pow(tau,i));
+  Rs.forEach((t,i)=>R+=serie(t,tau)*Math.pow(tau,i));
+  L/=1e8; B/=1e8; R/=1e8;
+  let lam=(L*R2D+180)%360, bet=-B*R2D;
+  const Lp=lam-1.397*T-0.00031*T*T;
+  lam+=(-0.09033+0.03916*(Math.cos(Lp*D2R)+Math.sin(Lp*D2R))*Math.tan(bet*D2R))/3600;
+  bet+=(0.03916*(Math.cos(Lp*D2R)-Math.sin(Lp*D2R)))/3600;
+  return {lam, bet, R};
+}
+
+function nutation(T){
+  const Om=(125.04452-1934.136261*T)%360, L=(280.4665+36000.7698*T)%360, Lp=(218.3165+481267.8813*T)%360;
+  return {dpsi:(-17.20*Math.sin(Om*D2R)-1.32*Math.sin(2*L*D2R)-0.23*Math.sin(2*Lp*D2R)+0.21*Math.sin(2*Om*D2R))/3600,
+          deps:(9.20*Math.cos(Om*D2R)+0.57*Math.cos(2*L*D2R)+0.10*Math.cos(2*Lp*D2R)-0.09*Math.cos(2*Om*D2R))/3600};
+}
+const obliquite=(T)=>23+26/60+21.448/3600-(46.8150*T+0.00059*T*T-0.001813*T**3)/3600;
+function gmst(jd){ const T=(jd-2451545)/36525;
+  return (280.46061837+360.98564736629*(jd-2451545)+0.000387933*T*T-T**3/38710000)%360; }
+
+function elements(jdTdt, dT){
+  const T=(jdTdt-2451545)/36525, nu=nutation(T), eps=(obliquite(T)+nu.deps)*D2R;
+  const s=soleil(T);
+  const ls=(s.lam-0.005691/s.R+nu.dpsi)*D2R, bs=s.bet*D2R, rs=s.R*UA_KM/RE_KM;
+  const m=lune(T);
+  const lm=(m.lam+nu.dpsi)*D2R, bm=m.bet*D2R, rm=m.dist/RE_KM;
+  const ce=Math.cos(eps), se=Math.sin(eps);
+  const eq=(l,b,r)=>{const x=r*Math.cos(b)*Math.cos(l), y=r*Math.cos(b)*Math.sin(l), z=r*Math.sin(b);
+                     return [x, y*ce-z*se, y*se+z*ce];};
+  const S=eq(ls,bs,rs), M=eq(lm,bm,rm);
+  const G=[S[0]-M[0],S[1]-M[1],S[2]-M[2]], g=Math.hypot(G[0],G[1],G[2]);
+  const d=Math.asin(G[2]/g), a=Math.atan2(G[1],G[0]);
+  const mu=(gmst(jdTdt)+nu.dpsi*Math.cos(eps)-a*R2D+720)%360;
+  const ca=Math.cos(a), sa=Math.sin(a), cd=Math.cos(d), sd=Math.sin(d);
+  const x=-M[0]*sa+M[1]*ca;
+  const y=-M[0]*sd*ca-M[1]*sd*sa+M[2]*cd;
+  const z= M[0]*cd*ca+M[1]*cd*sa+M[2]*sd;
+  const sf1=(K_SOL+K_PEN)/g, sf2=(K_SOL-K_OMB)/g;
+  const f1=Math.asin(sf1), f2=Math.asin(sf2);
+  return {x, y, d:d*R2D, mu, l1:(z+K_PEN/sf1)*Math.tan(f1), l2:(z-K_OMB/sf2)*Math.tan(f2),
+          tanf1:Math.tan(f1), tanf2:Math.tan(f2)};
+}
+
+const CATALOGUE=[[2461089.00914, 69.6, "A", "2026-02-17"], [2461265.24092, 69.6, "T", "2026-08-12"], [2461443.1672, 69.9, "A", "2027-02-06"], [2461619.92207, 69.9, "T", "2027-08-02"], [2461797.13125, 70.2, "A", "2028-01-26"], [2461974.62274, 70.2, "T", "2028-07-22"], [2462151.2179, 70.5, "P", "2029-01-14"], [2462299.67103, 70.5, "P", "2029-06-12"], [2462329.15103, 70.5, "P", "2029-07-11"], [2462476.12774, 70.5, "P", "2029-12-05"], [2462653.77027, 70.8, "A", "2030-06-01"], [2462830.78599, 70.8, "T", "2030-11-25"], [2463007.80277, 71.1, "A", "2031-05-21"], [2463185.38025, 71.1, "H", "2031-11-14"], [2463362.0602, 71.4, "A", "2032-05-09"], [2463539.73223, 71.4, "P", "2032-11-03"], [2463687.25182, 71.7, "T", "2033-03-30"], [2463864.07945, 71.7, "P", "2033-09-23"], [2464041.92987, 72.0, "T", "2034-03-20"], [2464218.18013, 72.0, "A", "2034-09-12"], [2464396.46252, 72.3, "A", "2035-03-09"], [2464572.58103, 72.3, "T", "2035-09-02"], [2464750.69924, 72.6, "P", "2036-02-27"], [2464897.93901, 72.6, "P", "2036-07-23"], [2464927.2262, 72.6, "P", "2036-08-21"], [2465074.90892, 72.9, "P", "2037-01-16"], [2465252.61162, 72.9, "T", "2037-07-13"], [2465429.07448, 73.2, "A", "2038-01-05"], [2465607.06457, 73.2, "A", "2038-07-02"], [2465783.54186, 73.2, "T", "2038-12-26"], [2465961.21728, 73.5, "A", "2039-06-21"], [2466138.18329, 73.5, "T", "2039-12-15"], [2466285.65476, 73.8, "P", "2040-05-11"], [2466463.29791, 73.8, "P", "2040-11-04"], [2466639.99475, 74.1, "T", "2041-04-30"], [2466817.56695, 74.1, "A", "2041-10-25"], [2466994.5956, 74.4, "T", "2042-04-20"], [2467171.58377, 74.4, "A", "2042-10-14"], [2467349.29022, 74.7, "A", "2043-04-09"], [2467525.62626, 74.7, "A", "2043-10-03"], [2467674.35047, 75.0, "A", "2044-02-28"], [2467850.55339, 75.0, "T", "2044-08-23"], [2468028.49731, 75.3, "A", "2045-02-16"], [2468205.23794, 75.3, "T", "2045-08-12"], [2468382.46285, 75.6, "A", "2046-02-05"], [2468559.93134, 75.6, "T", "2046-08-02"], [2468736.56486, 75.9, "P", "2047-01-26"], [2468884.95313, 75.9, "P", "2047-06-23"], [2468914.44191, 75.9, "P", "2047-07-22"], [2469061.49317, 75.9, "P", "2047-12-16"], [2469239.04089, 76.2, "A", "2048-06-11"], [2469416.14974, 76.2, "T", "2048-12-05"], [2469593.08328, 76.5, "A", "2049-05-31"], [2469770.73175, 76.5, "H", "2049-11-25"], [2469947.36312, 76.8, "H", "2050-05-20"], [2470125.06317, 76.8, "P", "2050-11-14"], [2470272.59071, 79.9, "P", "2051-04-11"], [2470301.92719, 79.9, "P", "2051-05-10"], [2470449.3765, 79.9, "P", "2051-10-04"], [2470627.27227, 83.0, "T", "2052-03-30"], [2470803.48547, 83.0, "A", "2052-09-22"], [2470981.79756, 86.0, "A", "2053-03-20"], [2471157.89865, 86.0, "T", "2053-09-12"], [2471336.02344, 89.1, "P", "2054-03-09"], [2471483.25277, 89.1, "P", "2054-08-03"], [2471512.54824, 89.1, "P", "2054-09-02"], [2471660.24587, 92.2, "P", "2055-01-27"], [2471837.91517, 92.2, "T", "2055-07-24"], [2472014.4283, 95.3, "A", "2056-01-16"], [2472192.3487, 95.3, "A", "2056-07-12"], [2472368.90828, 98.4, "T", "2057-01-05"], [2472546.48628, 98.4, "A", "2057-07-01"], [2472723.55191, 98.4, "T", "2057-12-26"], [2472870.94393, 101.5, "P", "2058-05-22"], [2472900.51361, 101.5, "P", "2058-06-21"], [2473048.64098, 101.5, "P", "2058-11-16"], [2473225.30711, 104.5, "T", "2059-05-11"], [2473402.88771, 104.5, "A", "2059-11-05"], [2473579.92369, 107.6, "T", "2060-04-30"], [2473756.89173, 107.6, "A", "2060-10-24"], [2473934.62299, 110.7, "T", "2061-04-20"], [2474110.93896, 110.7, "A", "2061-10-13"], [2474259.68496, 113.8, "P", "2062-03-11"], [2474435.87097, 113.8, "P", "2062-09-03"], [2474613.82191, 116.9, "A", "2063-02-28"], [2474790.557, 116.9, "T", "2063-08-24"], [2474967.79195, 119.9, "A", "2064-02-17"], [2475145.24039, 119.9, "T", "2064-08-12"], [2475321.91142, 123.0, "P", "2065-02-05"], [2475470.23189, 123.0, "P", "2065-07-03"], [2475499.73222, 123.0, "P", "2065-08-02"], [2475646.86098, 123.0, "P", "2065-12-27"], [2475824.30961, 126.1, "A", "2066-06-22"], [2476001.51646, 126.1, "T", "2066-12-17"], [2476178.36274, 129.2, "A", "2067-06-11"], [2476356.08591, 129.2, "H", "2067-12-06"], [2476532.66431, 132.3, "T", "2068-05-31"], [2476710.39762, 132.3, "P", "2068-11-24"], [2476857.92442, 135.4, "P", "2069-04-21"], [2476887.24537, 135.4, "P", "2069-05-20"], [2477034.68046, 135.4, "P", "2069-10-15"], [2477212.60856, 138.4, "T", "2070-04-11"], [2477388.79779, 138.4, "A", "2070-10-04"], [2477567.12591, 141.5, "A", "2071-03-31"], [2477743.22242, 141.5, "T", "2071-09-23"], [2477921.34071, 144.6, "P", "2072-03-19"], [2478097.87452, 144.6, "T", "2072-09-12"], [2478245.58051, 147.7, "P", "2073-02-07"], [2478423.21902, 147.7, "T", "2073-08-03"], [2478599.78079, 150.8, "A", "2074-01-27"], [2478777.63244, 150.8, "A", "2074-07-24"], [2478954.27501, 153.8, "T", "2075-01-16"], [2479131.75401, 153.8, "A", "2075-07-13"], [2479308.9219, 156.9, "T", "2076-01-06"], [2479456.23004, 156.9, "P", "2076-06-01"], [2479485.78527, 156.9, "P", "2076-07-01"], [2479633.98813, 156.9, "P", "2076-11-26"], [2479810.61543, 160.0, "T", "2077-05-22"], [2479988.21389, 160.0, "A", "2077-11-15"], [2480165.24788, 163.1, "T", "2078-05-11"], [2480342.20537, 163.1, "A", "2078-11-04"], [2480519.95164, 166.2, "T", "2079-05-01"], [2480696.25788, 166.2, "A", "2079-10-24"], [2480845.01407, 169.2, "P", "2080-03-21"], [2481021.19307, 169.2, "P", "2080-09-13"], [2481199.14135, 172.3, "A", "2081-03-10"], [2481375.88009, 172.3, "T", "2081-09-03"], [2481553.116, 175.4, "A", "2082-02-27"], [2481730.55293, 175.4, "T", "2082-08-24"], [2481907.2546, 178.5, "P", "2083-02-16"], [2482055.51, 178.5, "P", "2083-07-15"], [2482085.02416, 178.5, "P", "2083-08-13"], [2482232.22934, 181.6, "P", "2084-01-07"], [2482409.5767, 181.6, "A", "2084-07-03"], [2482586.88455, 181.6, "T", "2084-12-27"], [2482763.63977, 184.7, "A", "2085-06-22"], [2482941.44285, 184.7, "A", "2085-12-16"], [2483117.96331, 187.7, "T", "2086-06-11"], [2483295.73543, 187.7, "P", "2086-12-06"], [2483443.25327, 190.8, "P", "2087-05-02"], [2483472.56058, 190.8, "P", "2087-06-01"], [2483619.9909, 190.8, "P", "2087-10-26"], [2483797.93887, 193.9, "T", "2088-04-21"], [2483974.11668, 193.9, "A", "2088-10-14"], [2484152.44781, 197.0, "A", "2089-04-10"], [2484328.5522, 197.0, "T", "2089-10-04"], [2484506.65157, 200.1, "P", "2090-03-31"], [2484683.20593, 200.1, "T", "2090-09-23"], [2484830.91288, 203.1, "P", "2091-02-18"], [2485008.52411, 203.1, "T", "2091-08-15"], [2485185.13218, 206.2, "A", "2092-02-07"], [2485362.91648, 206.2, "A", "2092-08-03"], [2485539.64041, 209.3, "T", "2093-01-27"], [2485717.02231, 209.3, "A", "2093-07-23"], [2485894.29105, 212.4, "T", "2094-01-16"], [2486041.51528, 212.4, "P", "2094-06-13"], [2486071.05875, 212.4, "P", "2094-07-12"], [2486219.33743, 212.4, "P", "2094-12-07"], [2486395.92197, 215.5, "T", "2095-06-02"], [2486573.54376, 215.5, "A", "2095-11-27"], [2486750.56758, 218.6, "T", "2096-05-22"], [2486927.5252, 218.6, "A", "2096-11-15"], [2487105.27412, 221.6, "T", "2097-05-11"], [2487281.58429, 221.6, "A", "2097-11-04"], [2487430.33515, 224.7, "P", "2098-04-01"], [2487606.52153, 224.7, "P", "2098-09-25"], [2487635.94168, 224.7, "P", "2098-10-24"], [2487784.45454, 227.8, "A", "2099-03-21"], [2487961.2068, 227.8, "T", "2099-09-14"], [2488138.43624, 230.9, "A", "2100-03-10"], [2488315.86755, 230.9, "T", "2100-09-04"], [2488492.59474, 232.7, "A", "2101-02-28"], [2488670.31754, 232.7, "P", "2101-08-24"], [2488817.59807, 234.5, "P", "2102-01-19"], [2488994.8439, 234.5, "A", "2102-07-15"], [2489172.25302, 236.3, "T", "2103-01-08"], [2489348.91787, 236.3, "A", "2103-07-04"], [2489526.80087, 236.3, "A", "2103-12-29"], [2489703.26132, 238.1, "T", "2104-06-22"], [2489881.07544, 238.1, "A", "2104-12-17"], [2490028.57781, 239.9, "P", "2105-05-14"], [2490057.87367, 239.9, "P", "2105-06-12"], [2490205.30765, 239.9, "P", "2105-11-06"], [2490383.26354, 241.7, "T", "2106-05-03"], [2490559.44275, 241.7, "A", "2106-10-26"], [2490737.76305, 243.6, "A", "2107-04-23"], [2490913.88773, 243.6, "T", "2107-10-16"], [2491091.95536, 245.4, "P", "2108-04-11"], [2491268.54253, 245.4, "T", "2108-10-05"], [2491416.24016, 247.3, "P", "2109-03-01"], [2491593.83156, 247.3, "P", "2109-08-26"], [2491770.48028, 249.1, "A", "2110-02-18"], [2491948.20203, 249.1, "A", "2110-08-15"], [2492125.00382, 251.0, "T", "2111-02-08"], [2492302.29194, 251.0, "A", "2111-08-04"], [2492479.65959, 252.8, "T", "2112-01-29"], [2492626.79849, 252.8, "P", "2112-06-24"], [2492656.33237, 252.8, "P", "2112-07-23"], [2492804.68978, 252.8, "P", "2112-12-19"], [2492981.22638, 254.7, "T", "2113-06-13"], [2493158.87744, 254.7, "A", "2113-12-08"], [2493335.88482, 256.6, "T", "2114-06-03"], [2493512.85018, 256.6, "A", "2114-11-27"], [2493690.59304, 258.5, "T", "2115-05-24"], [2493866.91595, 258.5, "A", "2115-11-16"], [2494015.65065, 260.4, "P", "2116-04-13"], [2494191.8553, 260.4, "P", "2116-10-06"], [2494221.28477, 260.4, "P", "2116-11-04"], [2494369.76068, 262.3, "A", "2117-04-02"], [2494546.53861, 262.3, "T", "2117-09-26"], [2494723.75063, 264.2, "A", "2118-03-22"], [2494901.18631, 264.2, "T", "2118-09-15"], [2495077.93013, 266.1, "A", "2119-03-11"], [2495255.6143, 266.1, "P", "2119-09-05"], [2495402.96508, 268.0, "P", "2120-01-30"], [2495580.11114, 268.0, "A", "2120-07-25"], [2495757.62101, 269.9, "T", "2121-01-19"], [2495934.19624, 269.9, "A", "2121-07-14"], [2496112.15892, 271.9, "A", "2122-01-08"], [2496288.55936, 271.9, "T", "2122-07-04"], [2496466.41739, 271.9, "A", "2122-12-28"], [2496613.89821, 273.8, "P", "2123-05-25"], [2496643.18482, 273.8, "P", "2123-06-23"], [2496790.63019, 273.8, "P", "2123-11-18"], [2496968.58285, 275.7, "T", "2124-05-14"], [2497144.77533, 275.7, "A", "2124-11-06"], [2497323.07132, 277.7, "A", "2125-05-03"], [2497499.22965, 277.7, "T", "2125-10-26"], [2497677.2531, 279.6, "A", "2126-04-22"], [2497853.88396, 279.6, "T", "2126-10-16"]].map(a=>({jd:a[0],dT:a[1],
+  type:{T:'totale',A:'annulaire',H:'hybride',P:'partielle'}[a[2]],date:a[3]}));
+const VILLES=[["Wezeren", 50.762, 5.043, 70, "Europe/Brussels", "Belgique"], ["Landen", 50.7497, 5.0819, 65, "Europe/Brussels", "Belgique"], ["Saint-Trond", 50.8167, 5.1861, 45, "Europe/Brussels", "Belgique"], ["Louvain", 50.8798, 4.7005, 25, "Europe/Brussels", "Belgique"], ["Bruxelles", 50.8476, 4.3572, 50, "Europe/Brussels", "Belgique"], ["Liège", 50.6326, 5.5797, 70, "Europe/Brussels", "Belgique"], ["Anvers", 51.2194, 4.4025, 10, "Europe/Brussels", "Belgique"], ["Gand", 51.0543, 3.7174, 10, "Europe/Brussels", "Belgique"], ["Bruges", 51.2093, 3.2247, 10, "Europe/Brussels", "Belgique"], ["Ostende", 51.2247, 2.9125, 5, "Europe/Brussels", "Belgique"], ["Hasselt", 50.9307, 5.3378, 40, "Europe/Brussels", "Belgique"], ["Namur", 50.4674, 4.872, 90, "Europe/Brussels", "Belgique"], ["Mons", 50.4542, 3.9563, 50, "Europe/Brussels", "Belgique"], ["Charleroi", 50.4108, 4.4446, 120, "Europe/Brussels", "Belgique"], ["Arlon", 49.6833, 5.8167, 410, "Europe/Brussels", "Belgique"], ["Tanger", 35.7595, -5.834, 20, "Africa/Casablanca", "Maroc"], ["Asilah", 35.465, -6.035, 15, "Africa/Casablanca", "Maroc"], ["Tétouan", 35.5711, -5.3724, 30, "Africa/Casablanca", "Maroc"], ["Chefchaouen", 35.1688, -5.2636, 600, "Africa/Casablanca", "Maroc"], ["Al Hoceïma", 35.2494, -3.9372, 50, "Africa/Casablanca", "Maroc"], ["Nador", 35.1681, -2.9335, 20, "Africa/Casablanca", "Maroc"], ["Oujda", 34.6867, -1.9114, 470, "Africa/Casablanca", "Maroc"], ["Fès", 34.0331, -5.0003, 400, "Africa/Casablanca", "Maroc"], ["Meknès", 33.8935, -5.5473, 530, "Africa/Casablanca", "Maroc"], ["Kénitra", 34.261, -6.5802, 15, "Africa/Casablanca", "Maroc"], ["Rabat", 34.0209, -6.8416, 20, "Africa/Casablanca", "Maroc"], ["Casablanca", 33.5731, -7.5898, 50, "Africa/Casablanca", "Maroc"], ["Safi", 32.2994, -9.2372, 60, "Africa/Casablanca", "Maroc"], ["Beni Mellal", 32.3373, -6.3498, 600, "Africa/Casablanca", "Maroc"], ["Ifrane", 33.5228, -5.1106, 1660, "Africa/Casablanca", "Maroc"], ["Errachidia", 31.9314, -4.4244, 1060, "Africa/Casablanca", "Maroc"], ["Marrakech", 31.6295, -7.9811, 470, "Africa/Casablanca", "Maroc"], ["Essaouira", 31.5085, -9.7595, 10, "Africa/Casablanca", "Maroc"], ["Ouarzazate", 30.9335, -6.937, 1150, "Africa/Casablanca", "Maroc"], ["Taroudant", 30.4703, -8.877, 250, "Africa/Casablanca", "Maroc"], ["Agadir", 30.4278, -9.5981, 20, "Africa/Casablanca", "Maroc"], ["Tan-Tan", 28.438, -11.103, 60, "Africa/Casablanca", "Maroc"], ["Guelmim", 28.987, -10.0574, 300, "Africa/Casablanca", "Maroc"], ["Laâyoune", 27.1536, -13.2033, 60, "Africa/Casablanca", "Maroc"], ["Dakhla", 23.6848, -15.957, 10, "Africa/Casablanca", "Maroc"], ["Paris", 48.8566, 2.3522, 35, "Europe/Paris", "France"], ["Lille", 50.6292, 3.0573, 25, "Europe/Paris", "France"], ["Strasbourg", 48.5734, 7.7521, 140, "Europe/Paris", "France"], ["Lyon", 45.764, 4.8357, 170, "Europe/Paris", "France"], ["Bordeaux", 44.8378, -0.5792, 10, "Europe/Paris", "France"], ["Toulouse", 43.6047, 1.4442, 150, "Europe/Paris", "France"], ["Marseille", 43.2965, 5.3698, 10, "Europe/Paris", "France"], ["Nice", 43.7102, 7.262, 10, "Europe/Paris", "France"], ["Madrid", 40.4168, -3.7038, 660, "Europe/Madrid", "Espagne"], ["Barcelone", 41.3874, 2.1686, 10, "Europe/Madrid", "Espagne"], ["Valence", 39.4699, -0.3763, 15, "Europe/Madrid", "Espagne"], ["Séville", 37.3891, -5.9845, 10, "Europe/Madrid", "Espagne"], ["Malaga", 36.7213, -4.4214, 10, "Europe/Madrid", "Espagne"], ["Cadix", 36.5271, -6.2886, 10, "Europe/Madrid", "Espagne"], ["Las Palmas", 28.1235, -15.4363, 20, "Atlantic/Canary", "Canaries"], ["Lisbonne", 38.7223, -9.1393, 50, "Europe/Lisbon", "Portugal"], ["Porto", 41.1579, -8.6291, 90, "Europe/Lisbon", "Portugal"], ["Londres", 51.5074, -0.1278, 20, "Europe/London", "Royaume-Uni"], ["Amsterdam", 52.3676, 4.9041, 0, "Europe/Amsterdam", "Pays-Bas"], ["Berlin", 52.52, 13.405, 35, "Europe/Berlin", "Allemagne"], ["Genève", 46.2044, 6.1432, 375, "Europe/Zurich", "Suisse"], ["Rome", 41.9028, 12.4964, 20, "Europe/Rome", "Italie"], ["Vienne", 48.2082, 16.3738, 170, "Europe/Vienna", "Autriche"], ["Athènes", 37.9838, 23.7275, 70, "Europe/Athens", "Grèce"], ["Istanbul", 41.0082, 28.9784, 40, "Europe/Istanbul", "Turquie"], ["Reykjavik", 64.1466, -21.9426, 20, "Atlantic/Reykjavik", "Islande"], ["Alger", 36.7538, 3.0588, 25, "Africa/Algiers", "Algérie"], ["Tunis", 36.8065, 10.1815, 10, "Africa/Tunis", "Tunisie"], ["Le Caire", 30.0444, 31.2357, 25, "Africa/Cairo", "Égypte"], ["Louxor", 25.6872, 32.6396, 80, "Africa/Cairo", "Égypte"], ["Nouakchott", 18.0735, -15.9582, 10, "Africa/Nouakchott", "Mauritanie"], ["Dakar", 14.7167, -17.4677, 20, "Africa/Dakar", "Sénégal"], ["Nairobi", -1.2864, 36.8172, 1660, "Africa/Nairobi", "Kenya"], ["Le Cap", -33.9249, 18.4241, 25, "Africa/Johannesburg", "Afrique du Sud"], ["Dubaï", 25.2048, 55.2708, 5, "Asia/Dubai", "Émirats"], ["Delhi", 28.6139, 77.209, 220, "Asia/Kolkata", "Inde"], ["Bangkok", 13.7563, 100.5018, 5, "Asia/Bangkok", "Thaïlande"], ["Pékin", 39.9042, 116.4074, 45, "Asia/Shanghai", "Chine"], ["Tokyo", 35.6762, 139.6503, 40, "Asia/Tokyo", "Japon"], ["Sydney", -33.8688, 151.2093, 20, "Australia/Sydney", "Australie"], ["New York", 40.7128, -74.006, 10, "America/New_York", "États-Unis"], ["Montréal", 45.5019, -73.5674, 35, "America/Toronto", "Canada"], ["Mexico", 19.4326, -99.1332, 2240, "America/Mexico_City", "Mexique"], ["Rio de Janeiro", -22.9068, -43.1729, 10, "America/Sao_Paulo", "Brésil"], ["Buenos Aires", -34.6037, -58.3816, 25, "America/Argentina/Buenos_Aires", "Argentine"]].map(v=>({nom:v[0],lat:v[1],lon:v[2],h:v[3],tz:v[4],pays:v[5]}));
 
 /* ============================================================
-   2. Rendu du ciel
+   Circonstances locales, contacts, recherche des éclipses
    ============================================================ */
-const cv = document.getElementById('sky');
-const ctx = cv.getContext('2d');
-let W = 0, Hh = 0, DPR = 1;
+function circ(site, jdTdt, dT){
+  const e = elements(jdTdt, dT);
+  const d = e.d*D2R;
+  const u = Math.atan(0.99664719*Math.tan(site.lat*D2R));
+  const rs = 0.99664719*Math.sin(u) + (site.h/6378137)*Math.sin(site.lat*D2R);
+  const rc = Math.cos(u) + (site.h/6378137)*Math.cos(site.lat*D2R);
+  const H = (e.mu + site.lon - 0.00417807*dT)*D2R;
+  const xi = rc*Math.sin(H);
+  const eta = rs*Math.cos(d) - rc*Math.cos(H)*Math.sin(d);
+  const zeta = rs*Math.sin(d) + rc*Math.cos(H)*Math.cos(d);
+  const U = e.x - xi, V = e.y - eta;
+  const m = Math.hypot(U, V);
+  const L1 = e.l1 - zeta*e.tanf1, L2 = e.l2 - zeta*e.tanf2;
+  return {m, L1, L2, U, V, zeta,
+          rSun:(L1+L2)/2, rMoon:(L1-L2)/2,
+          mag:(L1-m)/(L1+L2), total:m < -L2};
+}
 
-const SPAN = 34;                        // champ visible en degrés (largeur du cadre)
-let VIEW = { az: 90, alt: 30, k: 10 };  // centre du champ : toujours le Soleil
+function obscuration(c){
+  const m=c.m, rs=c.rSun, rm=c.rMoon;
+  if (m >= rs+rm) return 0;
+  if (m <= Math.abs(rm-rs)) return rm >= rs ? 1 : (rm/rs)*(rm/rs);
+  const ca=Math.max(-1,Math.min(1,(m*m+rs*rs-rm*rm)/(2*m*rs)));
+  const cb=Math.max(-1,Math.min(1,(m*m+rm*rm-rs*rs)/(2*m*rm)));
+  const A=Math.acos(ca), B=Math.acos(cb);
+  return (rs*rs*(A-ca*Math.sin(A)) + rm*rm*(B-cb*Math.sin(B)))/(Math.PI*rs*rs);
+}
 
-function resize() {
-  DPR = Math.min(window.devicePixelRatio || 1, 2.5);
+/* Soleil apparent : hauteur et azimut, depuis la même théorie */
+function sunAltAz(site, jdTdt, dT){
+  const T=(jdTdt-2451545)/36525, nu=nutation(T), eps=(obliquite(T)+nu.deps)*D2R;
+  const s=soleil(T);
+  const lam=(s.lam-0.005691/s.R+nu.dpsi)*D2R, bet=s.bet*D2R;
+  const ra=Math.atan2(Math.cos(eps)*Math.sin(lam)-Math.tan(bet)*Math.sin(eps), Math.cos(lam));
+  const dec=Math.asin(Math.sin(bet)*Math.cos(eps)+Math.cos(bet)*Math.sin(eps)*Math.sin(lam));
+  const jdUt=jdTdt-dT/86400;
+  const st=(gmst(jdUt)+nu.dpsi*Math.cos(eps))*D2R;
+  const H=st + site.lon*D2R - ra;
+  const la=site.lat*D2R;
+  const alt=Math.asin(Math.sin(la)*Math.sin(dec)+Math.cos(la)*Math.cos(dec)*Math.cos(H));
+  let az=Math.atan2(-Math.sin(H), Math.tan(dec)*Math.cos(la)-Math.sin(la)*Math.cos(H));
+  return {alt:alt*R2D, az:((az*R2D)%360+360)%360};
+}
+
+/* Contacts pour un site et une éclipse du catalogue */
+function contactsFor(site, ecl){
+  const dT=ecl.dT, pas=20/86400;
+  let C1=null,C2=null,C3=null,C4=null,MAX=null,best=-9,pP=null,pU=null;
+  for (let jd=ecl.jd-0.25; jd<=ecl.jd+0.25; jd+=pas){
+    const c=circ(site,jd,dT);
+    const fP=c.m-c.L1, fU=c.m+c.L2;
+    if (c.mag>best){best=c.mag; MAX=jd;}
+    if (pP!==null){
+      if (pP>0 && fP<=0 && C1===null) C1=jd;
+      if (pP<0 && fP>=0 && C1!==null && C4===null) C4=jd;
+      if (pU>0 && fU<=0 && C2===null) C2=jd;
+      if (pU<0 && fU>=0 && C2!==null && C3===null) C3=jd;
+    }
+    pP=fP; pU=fU;
+  }
+  const affiner=(jd,ombre)=>{
+    if (jd===null) return null;
+    const f=(x)=>{const c=circ(site,x,dT); return ombre ? c.m+c.L2 : c.m-c.L1;};
+    let a=jd-pas, b=jd+pas;
+    for (let i=0;i<45;i++){const mid=(a+b)/2; if ((f(mid)>0)===(f(a)>0)) a=mid; else b=mid;}
+    return (a+b)/2;
+  };
+  // Le maximum : recherche par section doree, sinon il reste au pas du balayage.
+  let a=MAX-pas, b=MAX+pas;
+  const phi=(Math.sqrt(5)-1)/2;
+  for (let i=0;i<60;i++){
+    const m1=b-phi*(b-a), m2=a+phi*(b-a);
+    if (circ(site,m1,dT).mag > circ(site,m2,dT).mag) b=m2; else a=m1;
+  }
+  MAX=(a+b)/2;
+  return {C1:affiner(C1,false), C2:affiner(C2,true), C3:affiner(C3,true),
+          C4:affiner(C4,false), MAX, dT};
+}
+
+/* Liste des éclipses visibles depuis un lieu, Soleil levé */
+function eclipsesVisibles(site){
+  const out=[];
+  for (const ecl of CATALOGUE){
+    let best=-9, jdBest=null;
+    for (let i=-14;i<=14;i++){              // balayage grossier, pas de 15 min
+      const jd=ecl.jd+i*0.25/24;
+      const c=circ(site,jd,ecl.dT);
+      if (c.mag>best){best=c.mag; jdBest=jd;}
+    }
+    if (best<=0) continue;
+    for (let i=-8;i<=8;i++){                // affinage, pas de 2 min
+      const jd=jdBest+i*2/1440;
+      const c=circ(site,jd,ecl.dT);
+      if (c.mag>best){best=c.mag; jdBest=jd;}
+    }
+    if (best<=0) continue;
+    const sun=sunAltAz(site,jdBest,ecl.dT);
+    if (sun.alt<=0) continue;               // éclipse sous l'horizon
+    const c=circ(site,jdBest,ecl.dT);
+    out.push({...ecl, magLocale:best, obscLocale:obscuration(c),
+              totaleIci:c.total, jdMaxLocal:jdBest, altMax:sun.alt});
+  }
+  return out;
+}
+
+/* ============================================================
+   Interface
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+const CLE = 'eclipses.etat';
+
+let site = { lat:35.7595, lon:-5.8340, h:20, nom:'Tanger', tz:'Africa/Casablanca' };
+let visibles = [], ecl = null, contacts = null;
+let mode = 'live', scrubT = 0, playStart = 0, T_START = 0, T_END = 0;
+
+const jdMaintenant = () => Date.now()/86400000 + 2440587.5;
+const jd2date = (jd) => new Date((jd - 2440587.5)*86400000);
+const jdTdt2Date = (jd, dT) => jd2date(jd - dT/86400);
+const fmt = (jd, dT, sec) => jdTdt2Date(jd, dT).toLocaleTimeString('fr-FR',
+  { timeZone: site.tz, hour:'2-digit', minute:'2-digit', ...(sec?{second:'2-digit'}:{}), hour12:false });
+const fmtDate = (jd, dT) => jdTdt2Date(jd, dT).toLocaleDateString('fr-FR',
+  { timeZone: site.tz, day:'numeric', month:'long', year:'numeric' });
+
+function dur(sec){
+  sec = Math.max(0, Math.round(sec));
+  const an = Math.floor(sec/31557600), j = Math.floor(sec%31557600/86400);
+  const h = Math.floor(sec%86400/3600), m = Math.floor(sec%3600/60), s = sec%60;
+  if (an > 0) return `${an} an${an>1?'s':''} ${j} j`;
+  if (j > 0) return `${j} j ${h} h`;
+  if (h > 0) return `${h} h ${String(m).padStart(2,'0')} min`;
+  return `${m} min ${String(s).padStart(2,'0')} s`;
+}
+const totSec = () => (contacts && contacts.C2 && contacts.C3) ? (contacts.C3-contacts.C2)*86400 : 0;
+function note(msg, cls){ const e=$('note'); e.textContent=msg||''; e.className='note'+(cls?' '+cls:''); }
+
+/* ---- rendu du ciel ---- */
+const cv = $('sky'), ctx = cv.getContext('2d');
+let W=0, Hh=0, DPR=1;
+const SPAN = 34;
+let VIEW = { az:90, alt:30, k:10 };
+function resize(){
+  DPR = Math.min(window.devicePixelRatio||1, 2.5);
   const r = cv.getBoundingClientRect();
   W = r.width; Hh = r.height;
-  cv.width = Math.round(W * DPR); cv.height = Math.round(Hh * DPR);
-  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  VIEW.k = W / SPAN;
+  cv.width = Math.round(W*DPR); cv.height = Math.round(Hh*DPR);
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  VIEW.k = W/SPAN;
 }
-
-/* projection locale autour du Soleil : haut de l'écran = zénith */
-function project(az, alt) {
+function project(az, alt){
   let d = az - VIEW.az;
   while (d > 180) d -= 360;
   while (d < -180) d += 360;
-  return [W / 2 + d * Math.cos(VIEW.alt * RAD) * VIEW.k, Hh / 2 - (alt - VIEW.alt) * VIEW.k];
+  return [W/2 + d*Math.cos(VIEW.alt*D2R)*VIEW.k, Hh/2 - (alt-VIEW.alt)*VIEW.k];
 }
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
-const mix = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
-const rgb = (c) => `rgb(${c[0] | 0},${c[1] | 0},${c[2] | 0})`;
+const mix = (a,b,t) => a.map((v,i) => v + (b[i]-v)*t);
+const rgb = (c) => `rgb(${c[0]|0},${c[1]|0},${c[2]|0})`;
 
-/* champ d'étoiles indicatif, tiré une fois */
-const STARS = (() => {
-  let s = 987654;
-  const rnd = () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
-  const a = [];
-  for (let i = 0; i < 220; i++) a.push({ az: rnd() * 360, alt: Math.asin(rnd()) * DEG, m: rnd() });
-  return a;
-})();
+const ETOILES = (() => { let s=987654; const r=()=>(s=(s*1103515245+12345)&0x7fffffff)/0x7fffffff;
+  const a=[]; for(let i=0;i<220;i++) a.push({az:r()*360, alt:Math.asin(r())*R2D, m:r()}); return a; })();
+const AIGRETTES = (() => { let s=12345; const r=()=>(s=(s*1103515245+12345)&0x7fffffff)/0x7fffffff;
+  const a=[]; for(let i=0;i<64;i++){ const g=r()*Math.PI*2, eq=Math.abs(Math.cos(g));
+    a.push({a:g, len:1.5+r()*1.5+eq*1.4, w:0.03+r()*0.07, op:0.20+r()*0.35}); } return a; })();
+const PROMS = [{a:0.6,s:0.16,r:0.055},{a:2.35,s:0.11,r:0.04},{a:3.9,s:0.2,r:0.065},{a:5.3,s:0.09,r:0.035}];
 
-/* couronne figée : rayons tirés une fois pour toutes */
-const STREAMERS = (() => {
-  let s = 12345;
-  const rnd = () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
-  const arr = [];
-  for (let i = 0; i < 64; i++) {
-    const a = rnd() * Math.PI * 2;
-    const eq = Math.abs(Math.cos(a));
-    arr.push({ a, len: 1.5 + rnd() * 1.5 + eq * 1.4, w: 0.03 + rnd() * 0.07, op: 0.20 + rnd() * 0.35 });
+function drawSky(sunAlt, o, total){
+  const jour = clamp01((sunAlt+6)/14), bas = clamp01((10-sunAlt)/16);
+  const e = total ? 0.035 : 1 - 0.955*Math.pow(Math.max(0,o), 9);
+  const haut = mix([5,7,18],[26,68,142],jour).map(v=>v*e);
+  let basC = mix([9,12,26],[96,150,210],jour);
+  basC = mix(basC,[206,122,74], bas*jour*0.85).map(v=>v*(e*0.94+0.06));
+  const g = ctx.createLinearGradient(0,0,0,Hh);
+  g.addColorStop(0, rgb(haut)); g.addColorStop(1, rgb(basC));
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,Hh);
+  const nuit = (1-jour)*e;
+  if (nuit > 0.25) for (const st of ETOILES){
+    const [x,y] = project(st.az, st.alt);
+    if (x<-4||x>W+4||y<-4||y>Hh+4) continue;
+    ctx.fillStyle = `rgba(238,244,255,${(0.25+st.m*0.6)*(nuit-0.25)/0.75})`;
+    ctx.beginPath(); ctx.arc(x,y,0.6+st.m*1.1,0,Math.PI*2); ctx.fill();
   }
-  return arr;
-})();
-const PROMS = [{ a: 0.6, s: 0.16, r: 0.055 }, { a: 2.35, s: 0.11, r: 0.04 },
-               { a: 3.9, s: 0.2, r: 0.065 }, { a: 5.3, s: 0.09, r: 0.035 }];
-
-/* ciel : couleur pilotée par la hauteur du Soleil, puis assombrie par l'éclipse */
-function drawSky(sunAlt, o, total) {
-  const jour = clamp01((sunAlt + 6) / 14);          // 0 = nuit noire, 1 = plein jour
-  const bas  = clamp01((10 - sunAlt) / 16);         // Soleil bas : bande chaude
-  const ecl  = total ? 0.035 : 1 - 0.955 * Math.pow(Math.max(0, o), 9);
-
-  const haut = mix([5, 7, 18], [26, 68, 142], jour).map(v => v * ecl);
-  let basC   = mix([9, 12, 26], [96, 150, 210], jour);
-  basC = mix(basC, [206, 122, 74], bas * jour * 0.85).map(v => v * (ecl * 0.94 + 0.06));
-
-  const g = ctx.createLinearGradient(0, 0, 0, Hh);
-  g.addColorStop(0, rgb(haut));
-  g.addColorStop(1, rgb(basC));
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, W, Hh);
-
-  const nuit = (1 - jour) * ecl;
-  if (nuit > 0.25) {
-    for (const st of STARS) {
-      const [x, y] = project(st.az, st.alt);
-      if (x < -4 || x > W + 4 || y < -4 || y > Hh + 4) continue;
-      ctx.fillStyle = `rgba(238,244,255,${(0.25 + st.m * 0.6) * (nuit - 0.25) / 0.75})`;
-      ctx.beginPath(); ctx.arc(x, y, 0.6 + st.m * 1.1, 0, Math.PI * 2); ctx.fill();
-    }
-  }
-  return { jour, ecl };
+  return jour;
 }
-
-/* grille alt/az et horizon */
-function drawGrid(jour) {
-  const a = 0.08 + 0.14 * (1 - jour) + 0.06 * jour;
-  ctx.lineWidth = 1;
-  ctx.font = `400 9px 'IBM Plex Mono',monospace`;
-
-  ctx.strokeStyle = `rgba(244,239,230,${a})`;
-  ctx.textAlign = 'left';
-  const a0 = Math.floor((VIEW.alt - SPAN * Hh / W / 2) / 10) * 10;
-  const a1 = Math.ceil((VIEW.alt + SPAN * Hh / W / 2) / 10) * 10;
-  for (let alt = a0; alt <= a1; alt += 10) {
+function drawGrid(jour){
+  const a = 0.08 + 0.14*(1-jour) + 0.06*jour;
+  ctx.lineWidth = 1; ctx.font = `400 9px 'IBM Plex Mono',monospace`;
+  ctx.strokeStyle = `rgba(244,239,230,${a})`; ctx.textAlign = 'left';
+  const demi = SPAN*Hh/W/2;
+  for (let alt = Math.floor((VIEW.alt-demi)/10)*10; alt <= Math.ceil((VIEW.alt+demi)/10)*10; alt += 10){
     if (alt === 0) continue;
     const y = project(VIEW.az, alt)[1];
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-    if (y > 26 && y < Hh - 26) {            // ni sous la barre du haut, ni dans les azimuts
-      ctx.fillStyle = `rgba(244,239,230,${a + .16})`;
-      ctx.fillText(alt + '°', 6, y - 4);
-    }
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+    if (y > 26 && y < Hh-26){ ctx.fillStyle = `rgba(244,239,230,${a+.16})`; ctx.fillText(alt+'°', 6, y-4); }
   }
-
   ctx.textAlign = 'center';
-  const z0 = Math.floor((VIEW.az - SPAN / 2) / 10) * 10;
-  const CARD = { 0: 'N', 90: 'E', 180: 'S', 270: 'O' };
-  for (let az = z0; az <= z0 + SPAN + 10; az += 10) {
+  const CARD = {0:'N',90:'E',180:'S',270:'O'};
+  for (let az = Math.floor((VIEW.az-SPAN/2)/10)*10; az <= VIEW.az+SPAN/2+10; az += 10){
     const x = project(az, VIEW.alt)[0];
-    if (x < 16 || x > W - 16) continue;
-    ctx.strokeStyle = `rgba(244,239,230,${a * 0.7})`;
-    ctx.beginPath(); ctx.moveTo(x, Hh - 17); ctx.lineTo(x, Hh - 12); ctx.stroke();
-    const k = ((az % 360) + 360) % 360;
-    ctx.fillStyle = `rgba(244,239,230,${a + .16})`;
-    ctx.fillText(CARD[k] || (k + '°'), x, Hh - 3);
+    if (x < 16 || x > W-16) continue;
+    ctx.strokeStyle = `rgba(244,239,230,${a*0.7})`;
+    ctx.beginPath(); ctx.moveTo(x,Hh-17); ctx.lineTo(x,Hh-12); ctx.stroke();
+    const k = ((az%360)+360)%360;
+    ctx.fillStyle = `rgba(244,239,230,${a+.16})`;
+    ctx.fillText(CARD[k] || (k+'°'), x, Hh-3);
   }
-
-  // horizon
   const yh = project(VIEW.az, 0)[1];
-  if (yh > -20 && yh < Hh + 20) {
-    ctx.fillStyle = 'rgba(3,5,11,.93)';
-    ctx.fillRect(0, yh, W, Hh - yh);
+  if (yh > -20 && yh < Hh+20){
+    ctx.fillStyle = 'rgba(3,5,11,.93)'; ctx.fillRect(0,yh,W,Hh-yh);
     ctx.strokeStyle = 'rgba(244,239,230,.28)';
-    ctx.beginPath(); ctx.moveTo(0, yh); ctx.lineTo(W, yh); ctx.stroke();
-    ctx.fillStyle = 'rgba(244,239,230,.42)';
-    ctx.textAlign = 'left';
-    ctx.fillText('HORIZON', 6, yh + 13);
+    ctx.beginPath(); ctx.moveTo(0,yh); ctx.lineTo(W,yh); ctx.stroke();
+    ctx.fillStyle = 'rgba(244,239,230,.42)'; ctx.textAlign='left'; ctx.fillText('HORIZON', 6, yh+13);
   }
 }
-
-/* Soleil seul, hors période d'éclipse */
-function drawSunOnly(sun) {
-  const R = Math.max(16, Math.min(W, Hh) * 0.075);
-  const [cx, cy] = project(sun.az, sun.alt);
-  if (sun.alt < -0.9) {                       // sous l'horizon : position indicative
-    ctx.setLineDash([4, 4]);
-    ctx.strokeStyle = 'rgba(224,163,60,.55)';
-    ctx.lineWidth = 1.4;
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(224,163,60,.10)';
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+function drawSunOnly(sun){
+  const R = Math.max(16, Math.min(W,Hh)*0.075);
+  const [cx,cy] = project(sun.az, sun.alt);
+  if (sun.alt < -0.9){
+    ctx.setLineDash([4,4]); ctx.strokeStyle='rgba(224,163,60,.55)'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='rgba(224,163,60,.10)'; ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fill();
     return;
   }
-  const gR = R * 3.4;
-  const glow = ctx.createRadialGradient(cx, cy, R * 0.8, cx, cy, gR);
-  glow.addColorStop(0, 'rgba(255,232,180,.34)');
-  glow.addColorStop(0.4, 'rgba(255,206,130,.12)');
-  glow.addColorStop(1, 'rgba(255,206,130,0)');
-  ctx.fillStyle = glow;
-  ctx.beginPath(); ctx.arc(cx, cy, gR, 0, Math.PI * 2); ctx.fill();
-  const core = ctx.createRadialGradient(cx - R * .12, cy - R * .12, R * .1, cx, cy, R);
-  core.addColorStop(0, 'rgb(255,253,242)');
-  core.addColorStop(0.78, 'rgb(255,235,186)');
-  core.addColorStop(1, 'rgb(252,206,126)');
-  ctx.fillStyle = core;
-  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+  const gR = R*3.4, gl = ctx.createRadialGradient(cx,cy,R*0.8,cx,cy,gR);
+  gl.addColorStop(0,'rgba(255,232,180,.34)'); gl.addColorStop(0.4,'rgba(255,206,130,.12)');
+  gl.addColorStop(1,'rgba(255,206,130,0)');
+  ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(cx,cy,gR,0,Math.PI*2); ctx.fill();
+  const co = ctx.createRadialGradient(cx-R*.12,cy-R*.12,R*.1,cx,cy,R);
+  co.addColorStop(0,'rgb(255,253,242)'); co.addColorStop(0.78,'rgb(255,235,186)');
+  co.addColorStop(1,'rgb(252,206,126)');
+  ctx.fillStyle=co; ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fill();
 }
-
-function drawEclipse(c, sun, o, total) {
-  const R = Math.max(22, Math.min(W, Hh) * 0.108);
+function drawEclipse(c, sun, o, total){
+  const R = Math.max(22, Math.min(W,Hh)*0.108);
   if (!(c.rSun > 0) || !(c.rMoon > 0)) { drawSunOnly(sun); return; }
-  const scale = R / c.rSun;
-  const [cx, cy] = project(sun.az, sun.alt);
+  const scale = R/c.rSun;
+  const [cx,cy] = project(sun.az, sun.alt);
+  const la=site.lat*D2R, al=sun.alt*D2R, az=sun.az*D2R;
+  const s=[Math.sin(az)*Math.cos(al), Math.cos(az)*Math.cos(al), Math.sin(al)];
+  const n=[0, Math.cos(la), Math.sin(la)];
+  const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+  const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+  const nrm=(a)=>{const L=Math.hypot(a[0],a[1],a[2]); return [a[0]/L,a[1]/L,a[2]/L];};
+  const est=nrm(cross(n,s)), ns=dot(n,s);
+  const nord=nrm([n[0]-ns*s[0], n[1]-ns*s[1], n[2]-ns*s[2]]);
+  const zs=s[2], up=nrm([-zs*s[0], -zs*s[1], 1-zs*s[2]]), right=cross(s,up);
+  const dv=[c.U*est[0]+c.V*nord[0], c.U*est[1]+c.V*nord[1], c.U*est[2]+c.V*nord[2]];
+  const offX=dot(dv,right)*scale, offY=-dot(dv,up)*scale;
+  const mx=cx+offX, my=cy+offY, rM=c.rMoon*scale;
 
-  const latR = site.lat * RAD, altR = sun.alt * RAD, azR = sun.az * RAD;
-  const s = [Math.sin(azR) * Math.cos(altR), Math.cos(azR) * Math.cos(altR), Math.sin(altR)];
-  const n = [0, Math.cos(latR), Math.sin(latR)];
-  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
-  const nrm = (a) => { const L = Math.hypot(a[0], a[1], a[2]); return [a[0] / L, a[1] / L, a[2] / L]; };
-  const east = nrm(cross(n, s));
-  const ns = dot(n, s);
-  const north = nrm([n[0] - ns * s[0], n[1] - ns * s[1], n[2] - ns * s[2]]);
-  const zs = s[2];
-  const up = nrm([-zs * s[0], -zs * s[1], 1 - zs * s[2]]);
-  const right = cross(s, up);
-
-  const dv = [c.U * east[0] + c.V * north[0], c.U * east[1] + c.V * north[1], c.U * east[2] + c.V * north[2]];
-  const offX = dot(dv, right) * scale, offY = -dot(dv, up) * scale;
-  const mx = cx + offX, my = cy + offY;
-  const rM = c.rMoon * scale;
-
-  if (total) {
-    ctx.save();
-    ctx.globalCompositeOperation = 'lighter';
-    for (const st of STREAMERS) {
-      const g = ctx.createLinearGradient(mx, my, mx + Math.cos(st.a) * R * st.len, my + Math.sin(st.a) * R * st.len);
-      g.addColorStop(0, `rgba(226,236,252,${st.op})`);
-      g.addColorStop(1, 'rgba(226,236,252,0)');
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.moveTo(mx, my);
-      ctx.arc(mx, my, R * st.len, st.a - st.w, st.a + st.w);
-      ctx.closePath();
-      ctx.fill();
+  if (total){
+    ctx.save(); ctx.globalCompositeOperation='lighter';
+    for (const st of AIGRETTES){
+      const g=ctx.createLinearGradient(mx,my, mx+Math.cos(st.a)*R*st.len, my+Math.sin(st.a)*R*st.len);
+      g.addColorStop(0,`rgba(226,236,252,${st.op})`); g.addColorStop(1,'rgba(226,236,252,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(mx,my);
+      ctx.arc(mx,my,R*st.len, st.a-st.w, st.a+st.w); ctx.closePath(); ctx.fill();
     }
-    const halo = ctx.createRadialGradient(mx, my, rM * 0.96, mx, my, R * 2.3);
-    halo.addColorStop(0, 'rgba(232,241,255,.62)');
-    halo.addColorStop(0.18, 'rgba(210,224,248,.30)');
-    halo.addColorStop(1, 'rgba(190,210,245,0)');
-    ctx.fillStyle = halo;
-    ctx.beginPath(); ctx.arc(mx, my, R * 2.3, 0, Math.PI * 2); ctx.fill();
+    const halo=ctx.createRadialGradient(mx,my,rM*0.96,mx,my,R*2.3);
+    halo.addColorStop(0,'rgba(232,241,255,.62)'); halo.addColorStop(0.18,'rgba(210,224,248,.30)');
+    halo.addColorStop(1,'rgba(190,210,245,0)');
+    ctx.fillStyle=halo; ctx.beginPath(); ctx.arc(mx,my,R*2.3,0,Math.PI*2); ctx.fill();
     ctx.restore();
-
-    for (const p of PROMS) {
-      ctx.fillStyle = 'rgba(236,92,110,.75)';
-      ctx.beginPath();
-      ctx.ellipse(mx + Math.cos(p.a) * rM * 1.01, my + Math.sin(p.a) * rM * 1.01,
-                  rM * p.r, rM * p.s, p.a, 0, Math.PI * 2);
+    for (const p of PROMS){
+      ctx.fillStyle='rgba(236,92,110,.75)'; ctx.beginPath();
+      ctx.ellipse(mx+Math.cos(p.a)*rM*1.01, my+Math.sin(p.a)*rM*1.01, rM*p.r, rM*p.s, p.a, 0, Math.PI*2);
       ctx.fill();
     }
-    ctx.fillStyle = '#02040A';
-    ctx.beginPath(); ctx.arc(mx, my, rM, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle='#02040A'; ctx.beginPath(); ctx.arc(mx,my,rM,0,Math.PI*2); ctx.fill();
     return;
   }
-
-  const gR = R * (3.6 - 2.4 * o);
-  const glow = ctx.createRadialGradient(cx, cy, R * 0.8, cx, cy, gR);
-  glow.addColorStop(0, `rgba(255,232,180,${0.38 * (1 - o * 0.85)})`);
-  glow.addColorStop(0.4, `rgba(255,206,130,${0.13 * (1 - o * 0.8)})`);
-  glow.addColorStop(1, 'rgba(255,206,130,0)');
-  ctx.fillStyle = glow;
-  ctx.beginPath(); ctx.arc(cx, cy, gR, 0, Math.PI * 2); ctx.fill();
-
-  ctx.save();
-  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.clip();
-  const core = ctx.createRadialGradient(cx - R * 0.12, cy - R * 0.12, R * 0.1, cx, cy, R);
-  core.addColorStop(0, 'rgb(255,253,242)');
-  core.addColorStop(0.78, 'rgb(255,235,186)');
-  core.addColorStop(1, 'rgb(252,206,126)');
-  ctx.fillStyle = core;
-  ctx.fillRect(cx - R, cy - R, R * 2, R * 2);
-  ctx.restore();
-
-  ctx.beginPath(); ctx.arc(mx, my, rM, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(4,6,14,.98)';
-  ctx.fill();
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = 'rgba(150,168,205,.18)';
-  ctx.stroke();
-
-  if (o > 0.985) {
-    const L = Math.hypot(offX, offY) || 1e-6;
-    const bx = cx - offX / L * R, by = cy - offY / L * R;
-    const inten = Math.min(1, (o - 0.985) / 0.015);
-    const dg = ctx.createRadialGradient(bx, by, 0, bx, by, R * 1.5 * inten);
-    dg.addColorStop(0, `rgba(255,255,250,${0.95 * inten})`);
-    dg.addColorStop(0.12, `rgba(255,246,214,${0.6 * inten})`);
-    dg.addColorStop(1, 'rgba(255,246,214,0)');
-    ctx.fillStyle = dg;
-    ctx.beginPath(); ctx.arc(bx, by, R * 1.5 * inten, 0, Math.PI * 2); ctx.fill();
+  const gR=R*(3.6-2.4*o), gl=ctx.createRadialGradient(cx,cy,R*0.8,cx,cy,gR);
+  gl.addColorStop(0,`rgba(255,232,180,${0.38*(1-o*0.85)})`);
+  gl.addColorStop(0.4,`rgba(255,206,130,${0.13*(1-o*0.8)})`);
+  gl.addColorStop(1,'rgba(255,206,130,0)');
+  ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(cx,cy,gR,0,Math.PI*2); ctx.fill();
+  ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.clip();
+  const co=ctx.createRadialGradient(cx-R*0.12,cy-R*0.12,R*0.1,cx,cy,R);
+  co.addColorStop(0,'rgb(255,253,242)'); co.addColorStop(0.78,'rgb(255,235,186)');
+  co.addColorStop(1,'rgb(252,206,126)');
+  ctx.fillStyle=co; ctx.fillRect(cx-R,cy-R,R*2,R*2); ctx.restore();
+  ctx.beginPath(); ctx.arc(mx,my,rM,0,Math.PI*2);
+  ctx.fillStyle='rgba(4,6,14,.98)'; ctx.fill();
+  ctx.lineWidth=1; ctx.strokeStyle='rgba(150,168,205,.18)'; ctx.stroke();
+  if (o > 0.985 && ecl && ecl.type !== 'annulaire'){
+    const L=Math.hypot(offX,offY)||1e-6;
+    const bx=cx-offX/L*R, by=cy-offY/L*R, inten=Math.min(1,(o-0.985)/0.015);
+    const dg=ctx.createRadialGradient(bx,by,0,bx,by,R*1.5*inten);
+    dg.addColorStop(0,`rgba(255,255,250,${0.95*inten})`);
+    dg.addColorStop(0.12,`rgba(255,246,214,${0.6*inten})`);
+    dg.addColorStop(1,'rgba(255,246,214,0)');
+    ctx.fillStyle=dg; ctx.beginPath(); ctx.arc(bx,by,R*1.5*inten,0,Math.PI*2); ctx.fill();
   }
 }
-
-/* les éléments besséliens ne valent que quelques heures autour de t0 */
-const ECL_VALID = 3.2;
-
-function render(tTDT) {
+function render(jdTdt){
   if (!W) resize();
-  const sun = sunAltAz(jdFromTdt(tTDT));
+  const dT = ecl ? ecl.dT : 70;
+  const sun = sunAltAz(site, jdTdt, dT);
   VIEW.az = sun.az; VIEW.alt = sun.alt;
-
-  const dansEclipse = Math.abs(tTDT - T0) <= ECL_VALID;
-  const c = dansEclipse ? circ(tTDT) : null;
+  const dans = ecl && Math.abs(jdTdt - ecl.jd) < 0.14;
+  const c = dans ? circ(site, jdTdt, dT) : null;
   const o = c ? obscuration(c) : 0;
   const total = !!(c && c.total);
-
-  const { jour } = drawSky(sun.alt, o, total);
-  drawGrid(jour);
+  drawGrid(drawSky(sun.alt, o, total));
   if (c) drawEclipse(c, sun, o, total); else drawSunOnly(sun);
-  return { c, o, sun, dansEclipse };
+  return { c, o, sun, dans };
 }
 
-/* ============================================================
-   3. Interface
-   ============================================================ */
-const $ = (id) => document.getElementById(id);
-let contacts = findContacts();
-let mode = 'live', scrubT = 0, playStart = 0;
-let T_START = contacts.C1 - 6 / 60, T_END = contacts.C4 + 6 / 60;
+/* ---- listes ---- */
+const NOM_TYPE = { totale:'Totale', annulaire:'Annulaire', hybride:'Hybride', partielle:'Partielle' };
 
-function dur(sec) {
-  sec = Math.max(0, Math.round(sec));
-  const j = Math.floor(sec / 86400), h = Math.floor(sec % 86400 / 3600),
-        m = Math.floor(sec % 3600 / 60), s = sec % 60;
-  if (j > 0) return `${j} j ${h} h`;
-  if (h > 0) return `${h} h ${String(m).padStart(2, '0')} min`;
-  return `${m} min ${String(s).padStart(2, '0')} s`;
+function construireListeEclipses(){
+  const l = $('listeEcl'); l.innerHTML = '';
+  $('titreListe').textContent = `${visibles.length} éclipses visibles depuis ce lieu`;
+  if (!visibles.length){
+    l.innerHTML = '<div class="ecl"><span class="ty">Aucune éclipse visible depuis ce lieu d\'ici 2126.</span></div>';
+    return;
+  }
+  for (const e of visibles){
+    const d = document.createElement('div');
+    d.className = 'ecl' + (e.totaleIci ? ' totale' : '') + (ecl && ecl.date === e.date ? ' on' : '');
+    d.dataset.date = e.date;
+    const desc = e.totaleIci ? (e.type === 'annulaire' ? 'annulaire ici' : 'totale ici')
+                             : `${NOM_TYPE[e.type].toLowerCase()} ailleurs`;
+    d.innerHTML = `<span class="dt">${e.date}</span>
+      <span class="ty"><b>${e.totaleIci ? NOM_TYPE[e.type] : 'Partielle'}</b><small>${desc} · Soleil ${e.altMax.toFixed(0)}°</small></span>
+      <span class="ob">${(e.obscLocale*100).toFixed(0)} %</span>`;
+    d.addEventListener('click', () => choisirEclipse(e.date));
+    l.appendChild(d);
+  }
 }
-const totSec = () => (contacts.C2 && contacts.C3) ? (contacts.C3 - contacts.C2) * 3600 : 0;
 
-function buildContacts() {
-  T_START = contacts.C1 - 6 / 60;
-  T_END = contacts.C4 + 6 / 60;
+function construireListeVilles(filtre){
+  const l = $('listeVilles'); l.innerHTML = '';
+  const f = (filtre||'').trim().toLowerCase();
+  const norm = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const sel = VILLES.filter(v => !f || norm(v.nom).includes(norm(f)) || norm(v.pays).includes(norm(f)));
+  if (!sel.length){ l.innerHTML = '<div class="ville"><span>Aucune ville trouvée</span></div>'; return; }
+  for (const v of sel.slice(0, 200)){
+    const d = document.createElement('div');
+    d.className = 'ville' + (Math.abs(v.lat-site.lat)<5e-4 && Math.abs(v.lon-site.lon)<5e-4 ? ' on' : '');
+    d.innerHTML = `<span>${v.nom}</span><small>${v.pays}</small>`;
+    d.addEventListener('click', () => setSite(v.lat, v.lon, v.h, v.nom, v.tz));
+    l.appendChild(d);
+  }
+}
+
+/* ---- choix du lieu et de l'éclipse ---- */
+function setSite(lat, lon, h, nom, tz){
+  site = { lat, lon, h, nom, tz: tz || site.tz };
+  $('lieuNom').textContent = nom;
+  $('coords').textContent = `${Math.abs(lat).toFixed(3)} ${lat<0?'S':'N'} — ${Math.abs(lon).toFixed(3)} ${lon<0?'O':'E'}`;
+  note('Calcul des éclipses…');
+  setTimeout(() => {
+    const t0 = performance.now();
+    visibles = eclipsesVisibles(site);
+    const tot = visibles.filter(e => e.totaleIci && e.type !== 'annulaire').length;
+    note(`${visibles.length} éclipses visibles d'ici 2126, dont ${tot} totale${tot>1?'s':''} sur place. `
+         + `Calcul en ${Math.round(performance.now()-t0)} ms.`, 'ok');
+    construireListeEclipses();
+    construireListeVilles($('rech').value);
+    const garde = ecl && visibles.some(e => e.date === ecl.date) ? ecl.date : null;
+    // à défaut de choix mémorisé, on ouvre sur la prochaine éclipse à venir
+    const maintenant = jdMaintenant();
+    const prochaine = visibles.find(e => e.jd > maintenant) || visibles[visibles.length-1];
+    choisirEclipse(garde || (prochaine && prochaine.date));
+    enregistrer();
+  }, 30);
+}
+
+function choisirEclipse(date){
+  ecl = visibles.find(e => e.date === date) || null;
+  if (!ecl){ contacts = null; return; }
+  contacts = contactsFor(site, ecl);
+  T_START = contacts.C1 - 6/1440;
+  T_END = contacts.C4 + 6/1440;
+  const nomT = ecl.totaleIci ? NOM_TYPE[ecl.type] : 'Partielle';
+  $('titre').innerHTML = ecl.totaleIci && ecl.type === 'totale'
+    ? `Éclipse <em>totale</em>` : `Éclipse <em>${nomT.toLowerCase()}</em>`;
+  $('sousTitre').textContent = `${fmtDate(contacts.MAX, ecl.dT)} — ${site.nom}. `
+    + `Classée ${NOM_TYPE[ecl.type].toLowerCase()} dans le monde, `
+    + `${ecl.totaleIci ? 'et vous êtes dans la bande centrale.' : 'partielle depuis ce lieu.'}`;
+  construireContacts();
+  for (const d of $('listeEcl').children) d.classList.toggle('on', d.dataset.date === date);
+  enregistrer();
+}
+
+function construireContacts(){
+  const ul = $('contacts'); ul.innerHTML = '';
+  if (!contacts) return;
   const span = T_END - T_START;
-  const inBand = !!contacts.C2;
-
-  const rows = inBand ? [
-    [contacts.C1, 'Premier contact', 'La Lune entame le bord du Soleil', false],
-    [contacts.C2, 'Deuxième contact', 'Anneau de diamant, puis la couronne — lunettes ôtées', true],
-    [contacts.MAX, 'Maximum', 'Milieu de la totalité', true],
-    [contacts.C3, 'Troisième contact', 'Le Soleil réapparaît — lunettes immédiatement', true],
-    [contacts.C4, 'Dernier contact', 'Fin de l\'éclipse', false],
+  const central = !!(contacts.C2 && contacts.C3);
+  const rows = central ? [
+    [contacts.C1,'Premier contact','La Lune entame le disque solaire',false],
+    [contacts.C2,'Deuxième contact', ecl.type==='annulaire'?'L\'anneau se referme':'Anneau de diamant, puis la couronne',true],
+    [contacts.MAX,'Maximum','Milieu du phénomène',true],
+    [contacts.C3,'Troisième contact','Le Soleil réapparaît',true],
+    [contacts.C4,'Dernier contact','Fin de l\'éclipse',false],
   ] : [
-    [contacts.C1, 'Premier contact', 'La Lune entame le bord du Soleil', false],
-    [(contacts.C1 + contacts.MAX) / 2, 'Mi-parcours', 'Le disque se creuse', false],
-    [contacts.MAX, 'Maximum', 'Hors de la bande de totalité : éclipse partielle', false],
-    [contacts.C4, 'Dernier contact', 'Fin de l\'éclipse', false],
+    [contacts.C1,'Premier contact','La Lune entame le disque solaire',false],
+    [contacts.MAX,'Maximum','Phase la plus profonde depuis ce lieu',false],
+    [contacts.C4,'Dernier contact','Fin de l\'éclipse',false],
   ];
-
-  const ul = $('contacts');
-  ul.innerHTML = '';
-  for (const [t, nom, desc, isTot] of rows) {
-    const c = circ(t), o = obscuration(c);
-    const alt = sunAltAz(jdFromTdt(t)).alt;
+  for (const [jd,nom,desc,isT] of rows){
+    if (jd === null || jd === undefined) continue;
+    const c = circ(site, jd, ecl.dT), o = obscuration(c);
+    const alt = sunAltAz(site, jd, ecl.dT).alt;
     const li = document.createElement('li');
-    if (isTot) li.className = 'tot';
-    li.innerHTML = `<span class="t">${fmtLocal(dateFromTdt(t))}</span>
+    if (isT) li.className = 'tot';
+    li.innerHTML = `<span class="t">${fmt(jd, ecl.dT)}</span>
       <span class="n"><b>${nom}</b><span>${desc}</span></span>
-      <span class="d">${(o * 100).toFixed(0)} %<br>${alt.toFixed(0)}°</span>`;
-    li.dataset.t = t;
+      <span class="d">${(o*100).toFixed(0)} %<br>${alt.toFixed(0)}°</span>`;
+    li.dataset.t = jd;
     ul.appendChild(li);
   }
-
-  $('mk1').textContent = fmtLocal(dateFromTdt(contacts.C1));
-  $('mk2').textContent = fmtLocal(dateFromTdt(contacts.MAX));
-  $('mk3').textContent = fmtLocal(dateFromTdt(contacts.C4));
-  $('mk2').style.left = ((contacts.MAX - T_START) / span * 100).toFixed(1) + '%';
-
+  $('mk1').textContent = fmt(contacts.C1, ecl.dT);
+  $('mk2').textContent = fmt(contacts.MAX, ecl.dT);
+  $('mk3').textContent = fmt(contacts.C4, ecl.dT);
+  $('mk2').style.left = ((contacts.MAX-T_START)/span*100).toFixed(1)+'%';
   const tm = $('totMark');
-  if (inBand) {
-    tm.style.display = 'block';
-    tm.style.left = ((contacts.C2 - T_START) / span * 100).toFixed(2) + '%';
-    tm.style.width = Math.max(0.6, (contacts.C3 - contacts.C2) / span * 100).toFixed(2) + '%';
+  if (central){
+    tm.style.display='block';
+    tm.style.left = ((contacts.C2-T_START)/span*100).toFixed(2)+'%';
+    tm.style.width = Math.max(0.6,(contacts.C3-contacts.C2)/span*100).toFixed(2)+'%';
     const s = Math.round(totSec());
-    $('dDuree').innerHTML = `${Math.floor(s / 60)} <small>min</small> ${String(s % 60).padStart(2, '0')} <small>s</small>`;
+    $('dDuree').innerHTML = `${Math.floor(s/60)} <small>min</small> ${String(s%60).padStart(2,'0')} <small>s</small>`;
   } else {
-    tm.style.display = 'none';
-    $('dDuree').innerHTML = `— <small>hors bande</small>`;
+    tm.style.display='none';
+    $('dDuree').innerHTML = `— <small>partielle ici</small>`;
   }
+  if ($('btnTot').classList.contains('on'))
+    scrubT = central ? (contacts.C2+contacts.C3)/2 : contacts.MAX;
 }
 
-function currentT() {
-  if (mode === 'live') return tdtFromDate(new Date());
-  if (mode === 'play') return T_START + (((performance.now() - playStart) / 40000) % 1) * (T_END - T_START);
+/* ---- mémoire ---- */
+function enregistrer(){
+  try { localStorage.setItem(CLE, JSON.stringify({ site, date: ecl && ecl.date })); } catch(e){}
+}
+function relire(){
+  try {
+    const b = JSON.parse(localStorage.getItem(CLE) || 'null');
+    if (!b || !b.site) return null;
+    const s = b.site;
+    if (typeof s.lat !== 'number' || Math.abs(s.lat) > 90) return null;
+    if (typeof s.lon !== 'number' || Math.abs(s.lon) > 180) return null;
+    if (typeof s.nom !== 'string' || !s.nom) return null;
+    return { site:{ lat:s.lat, lon:s.lon, h:typeof s.h==='number'?s.h:50, nom:s.nom,
+                    tz:typeof s.tz==='string'?s.tz:'UTC' }, date:b.date };
+  } catch(e){ return null; }
+}
+
+/* ---- boucle ---- */
+function currentT(){
+  if (mode === 'live') return jdMaintenant() + (ecl?ecl.dT:70)/86400;
+  if (mode === 'play') return T_START + (((performance.now()-playStart)/40000)%1)*(T_END-T_START);
   return scrubT;
 }
-
-function updateStatut(t, c) {
-  const L = $('statutLabel'), V = $('statutVal');
-  V.className = 'val' + (mode === 'live' ? ' live' : '');
-  if (contacts.C2 && t >= contacts.C2 && t < contacts.C3) {
-    L.textContent = 'Totalité — reste';
-    V.textContent = dur((contacts.C3 - t) * 3600);
-    V.className = 'val tot';
-  } else if (t < contacts.C1) {
-    L.textContent = contacts.C2 ? 'Totalité dans' : 'Maximum dans';
-    V.textContent = dur(((contacts.C2 || contacts.MAX) - t) * 3600);
-  } else if (contacts.C2 && t < contacts.C2) {
-    L.textContent = 'Totalité dans';
-    V.textContent = dur((contacts.C2 - t) * 3600);
-  } else if (t < contacts.C4) {
-    L.textContent = 'Fin dans';
-    V.textContent = dur((contacts.C4 - t) * 3600);
-  } else {
-    L.textContent = 'Éclipse terminée';
-    V.textContent = 'Rendez-vous en 2028';
+function updateStatut(t){
+  const L=$('statutLabel'), V=$('statutVal');
+  V.className = 'val' + (mode==='live' ? ' live' : '');
+  if (!contacts){ L.textContent='Aucune éclipse'; V.textContent='—'; return; }
+  const central = contacts.C2 && contacts.C3;
+  if (central && t >= contacts.C2 && t < contacts.C3){
+    L.textContent = (ecl.type==='annulaire'?'Anneau':'Totalité')+' — reste';
+    V.textContent = dur((contacts.C3-t)*86400); V.className='val tot'; return;
   }
+  if (t < contacts.C1){
+    L.textContent = central ? 'Phase centrale dans' : 'Maximum dans';
+    V.textContent = dur(((central?contacts.C2:contacts.MAX)-t)*86400); return;
+  }
+  if (central && t < contacts.C2){ L.textContent='Phase centrale dans';
+    V.textContent = dur((contacts.C2-t)*86400); return; }
+  if (t < contacts.C4){ L.textContent='Fin dans'; V.textContent = dur((contacts.C4-t)*86400); return; }
+  L.textContent='Éclipse terminée'; V.textContent='—';
 }
-
-function tick() {
+function tick(){
   const t = currentT();
-  const { c, o, sun, dansEclipse } = render(t);
-  const d = dateFromTdt(t);
-
-  $('dHeure').textContent = fmtLocal(d, true);
-  $('dObsc').innerHTML = dansEclipse ? `${(o * 100).toFixed(1)} <small>%</small>` : '<small>hors éclipse</small>';
-  $('dMag').textContent = c ? Math.max(0, c.mag).toFixed(3) : '—';
-  $('dAlt').innerHTML = `${sun.alt.toFixed(1)}<small>\u00b0</small>`;
-  $('dAz').innerHTML = `${sun.az.toFixed(1)}<small>\u00b0</small>`;
-  $('tagLeft').textContent = mode === 'live'
-    ? 'En direct · ' + d.toLocaleDateString('fr-FR', { timeZone: TZ, day: 'numeric', month: 'short', year: 'numeric' })
-    : 'Simulation · 2 août 2027';
+  const { c, o, sun, dans } = render(t);
+  const dT = ecl ? ecl.dT : 70;
+  $('dHeure').textContent = fmt(t, dT, true);
+  $('dObsc').innerHTML = dans ? `${(o*100).toFixed(1)} <small>%</small>` : '<small>hors éclipse</small>';
+  $('dMag').textContent = c ? Math.max(0,c.mag).toFixed(3) : '—';
+  $('dAlt').innerHTML = `${sun.alt.toFixed(1)}<small>°</small>`;
+  $('dAz').innerHTML = `${sun.az.toFixed(1)}<small>°</small>`;
+  $('tagLeft').textContent = mode==='live'
+    ? 'En direct · ' + jdTdt2Date(t,dT).toLocaleDateString('fr-FR',{timeZone:site.tz,day:'numeric',month:'short',year:'numeric'})
+    : (ecl ? 'Simulation · ' + ecl.date : 'Simulation');
   $('tagRight').textContent = sun.alt > 0
     ? `${sun.alt.toFixed(0)}° · az ${sun.az.toFixed(0)}°`
     : `sous l'horizon · az ${sun.az.toFixed(0)}°`;
-  $('scrubTime').textContent = fmtLocal(d);
+  $('scrubTime').textContent = fmt(t, dT);
   $('totBand').classList.toggle('on', !!(c && c.total));
+  $('totBand').textContent = (ecl && ecl.type==='annulaire') ? 'Anneau — gardez les lunettes' : 'Totalité — lunettes retirées';
   updateStatut(t);
-
-  const span = T_END - T_START;
-  const f = (t - T_START) / span;
-  $('fill').style.width = Math.max(0, Math.min(100, f * 100)).toFixed(1) + '%';
-  if (mode !== 'scrub') $('scrub').value = Math.max(0, Math.min(2000, f * 2000));
-
-  for (const li of $('contacts').children) {
-    li.classList.toggle('now', dansEclipse && Math.abs(parseFloat(li.dataset.t) - t) < 1.5 / 60);
+  if (contacts){
+    const span = T_END - T_START, f = (t-T_START)/span;
+    $('fill').style.width = Math.max(0,Math.min(100,f*100)).toFixed(1)+'%';
+    if (mode !== 'scrub') $('scrub').value = Math.max(0,Math.min(2000,f*2000));
+    for (const li of $('contacts').children)
+      li.classList.toggle('now', dans && Math.abs(parseFloat(li.dataset.t)-t) < 1.5/1440);
   }
 }
+function frame(){ try { tick(); } catch(e){ console.error('rendu:',e); } requestAnimationFrame(frame); }
 
-function frame() {
-  try { tick(); } catch (e) { console.error('rendu:', e); }
-  requestAnimationFrame(frame);
-}
-
-/* ---- lieux ---- */
-function note(msg, cls) { const e = $('note'); e.textContent = msg || ''; e.className = 'note' + (cls ? ' ' + cls : ''); }
-
-function setSite(lat, lon, h, nom) {
-  const avant = site;
-  site = { lat, lon, h, nom };
-  const essai = findContacts();
-  // Les contacts peuvent exister géométriquement alors que le Soleil est sous
-  // l'horizon : l'éclipse a lieu, mais de l'autre côté de la Terre. On exige
-  // donc aussi que le Soleil soit levé au maximum.
-  const solLeve = essai.C1 && essai.C4 &&
-                  sunAltAz(jdFromTdt(essai.MAX)).alt > 0;
-  if (!solLeve) {
-    site = avant;
-    note(`Aucune éclipse visible depuis ${nom} le 2 août 2027 : le Soleil y est sous l'horizon. Lieu précédent conservé.`, 'err');
-    return;
-  }
-  contacts = essai;
-  buildContacts();
-  if ($('btnTot').classList.contains('on')) {
-    scrubT = contacts.C2 ? (contacts.C2 + contacts.C3) / 2 : contacts.MAX;
-  }
-  $('lieuNom').textContent = nom;
-  if (typeof marquerLieu === 'function') marquerLieu(lat, lon);
-  $('coords').textContent = `${lat.toFixed(3)} N — ${Math.abs(lon).toFixed(3)} ${lon < 0 ? 'O' : 'E'}`;
-  const s = Math.round(totSec());
-  note(contacts.C2
-    ? `${nom} : ${Math.floor(s / 60)} min ${String(s % 60).padStart(2, '0')} s de totalité.`
-    : `${nom} est hors de la bande de totalité : éclipse partielle seulement, les lunettes ne se retirent à aucun moment.`,
-    contacts.C2 ? 'ok' : 'err');
-  enregistrerLieu(site);
-}
-
-/* ---- mémoire du lieu d'observation ----
-   Le choix survit à la fermeture de l'application. Il change dès qu'un autre
-   lieu est touché ; il n'y a donc rien à réinitialiser. */
-const CLE_LIEU = 'eclipse2027.lieu';
-
-function enregistrerLieu(s) {
-  try { localStorage.setItem(CLE_LIEU, JSON.stringify(s)); } catch (e) { /* mode privé */ }
-}
-
-function lieuEnregistre() {
-  try {
-    const brut = localStorage.getItem(CLE_LIEU);
-    if (!brut) return null;
-    const s = JSON.parse(brut);
-    if (typeof s.lat !== 'number' || typeof s.lon !== 'number') return null;
-    if (Math.abs(s.lat) > 90 || Math.abs(s.lon) > 180) return null;
-    if (typeof s.nom !== 'string' || !s.nom) return null;
-    return { lat: s.lat, lon: s.lon, h: typeof s.h === 'number' ? s.h : 50, nom: s.nom };
-  } catch (e) { return null; }
-}
-
-const LIEUX = [
-  ['Tanger', 35.7595, -5.8340, 20, 1],
-  ['Asilah', 35.4650, -6.0350, 15, 1],
-  ['Tétouan', 35.5711, -5.3724, 30, 1],
-  ['Chefchaouen', 35.1688, -5.2636, 600, 1],
-  ['Al Hoceïma', 35.2494, -3.9372, 50, 1],
-  ['Nador', 35.1681, -2.9335, 20, 1],
-  ['Oujda', 34.6867, -1.9114, 470, 1],
-  ['Rabat', 34.0209, -6.8416, 20, 0],
-  ['Fès', 34.0331, -5.0003, 400, 0],
-  ['Casablanca', 33.5731, -7.5898, 50, 0],
-  ['Marrakech', 31.6295, -7.9811, 470, 0],
-  ['Dakhla', 23.6848, -15.9570, 10, 0],
-];
-const btnLieux = [];
-for (const [nom, la, lo, h, band] of LIEUX) {
-  const b = document.createElement('button');
-  b.textContent = nom;
-  if (!band) b.classList.add('hors');
-  b.dataset.la = la; b.dataset.lo = lo;
-  b.addEventListener('click', () => setSite(la, lo, h, nom));
-  $('presets').appendChild(b);
-  btnLieux.push(b);
-}
-/* correspondance sur les coordonnées, pas sur le libellé */
-function marquerLieu(lat, lon) {
-  for (const b of btnLieux) {
-    b.classList.toggle('on',
-      Math.abs(parseFloat(b.dataset.la) - lat) < 5e-4 &&
-      Math.abs(parseFloat(b.dataset.lo) - lon) < 5e-4);
-  }
-}
-
-function setActive(id) {
-  for (const k of ['btnLive', 'btnPlay', 'btnTot']) $(k).classList.toggle('on', k === id);
-}
-
+/* ---- commandes ---- */
+function setActive(id){ for (const k of ['btnLive','btnPlay','btnTot']) $(k).classList.toggle('on', k===id); }
 $('scrub').addEventListener('input', (e) => {
-  mode = 'scrub';
-  scrubT = T_START + (e.target.value / 2000) * (T_END - T_START);
-  setActive(null);
+  mode='scrub'; scrubT = T_START + (e.target.value/2000)*(T_END-T_START); setActive(null);
 });
-$('btnLive').addEventListener('click', () => { mode = 'live'; setActive('btnLive'); });
-$('btnPlay').addEventListener('click', () => {
-  mode = 'play'; playStart = performance.now(); setActive('btnPlay');
-});
+$('btnLive').addEventListener('click', () => { mode='live'; setActive('btnLive'); });
+$('btnPlay').addEventListener('click', () => { mode='play'; playStart=performance.now(); setActive('btnPlay'); });
 $('btnTot').addEventListener('click', () => {
-  mode = 'scrub';
-  scrubT = contacts.C2 ? (contacts.C2 + contacts.C3) / 2 : contacts.MAX;
+  if (!contacts) return;
+  mode='scrub';
+  scrubT = (contacts.C2 && contacts.C3) ? (contacts.C2+contacts.C3)/2 : contacts.MAX;
   setActive('btnTot');
 });
+$('rech').addEventListener('input', (e) => construireListeVilles(e.target.value));
 $('btnGeo').addEventListener('click', () => {
   const b = $('btnGeo');
-  if (!navigator.geolocation) {
-    note("Ce navigateur ne propose pas de géolocalisation. Choisissez un lieu ou entrez les coordonnées.", 'err');
-    return;
-  }
-  if (location.protocol === 'file:') {
-    note("Page ouverte en fichier local : Chrome ne peut rattacher l'autorisation à aucun domaine et la refuse sans rien demander. Une fois la page en ligne, le bouton fonctionnera.", 'err');
-    return;
-  }
-  if (!window.isSecureContext) {
-    note("La géolocalisation exige une page en https.", 'err');
-    return;
-  }
+  if (!navigator.geolocation){ note("Ce navigateur ne propose pas de géolocalisation.", 'err'); return; }
+  if (location.protocol === 'file:'){
+    note("Page ouverte en fichier local : Chrome refuse la localisation sans domaine. Choisissez une ville.", 'err'); return; }
+  if (!window.isSecureContext){ note("La géolocalisation exige une page en https.", 'err'); return; }
   b.textContent = 'Localisation…';
-  navigator.geolocation.getCurrentPosition(
-    (p) => {
-      b.textContent = 'Utiliser ma position';
-      setSite(p.coords.latitude, p.coords.longitude, p.coords.altitude || 50, 'Ma position');
-    },
-    (err) => {
-      b.textContent = 'Utiliser ma position';
-      const m = {
-        1: "Autorisation refusée. Activez la localisation pour Chrome dans les paramètres du téléphone, puis rechargez.",
-        2: "Position indisponible : le GPS n'a rien renvoyé. Réessayez, ou choisissez un lieu.",
-        3: "Délai dépassé avant la réponse du GPS. Réessayez, ou choisissez un lieu."
-      };
-      note(m[err.code] || `Échec (code ${err.code}).`, 'err');
-    },
-    { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
-  );
+  navigator.geolocation.getCurrentPosition((p) => {
+    b.textContent = 'Utiliser ma position';
+    const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'UTC';
+    setSite(p.coords.latitude, p.coords.longitude, p.coords.altitude || 50, 'Ma position', tz);
+  }, (err) => {
+    b.textContent = 'Utiliser ma position';
+    const m = {1:"Autorisation refusée. Activez la localisation pour le navigateur, puis rechargez.",
+               2:"Position indisponible : le GPS n'a rien renvoyé.",
+               3:"Délai dépassé avant la réponse du GPS."};
+    note(m[err.code] || `Échec (code ${err.code}).`, 'err');
+  }, { enableHighAccuracy:false, timeout:10000, maximumAge:60000 });
 });
+
+/* ---- démarrage ---- */
+$('pied').innerHTML =
+  "Moteur d'éphémérides embarqué : théorie lunaire ELP abrégée (Meeus ch. 47), Soleil VSOP87 tronqué, "
++ "éléments besséliens calculés à la volée pour chaque instant. Validé contre le catalogue NASA/GSFC "
++ "sur 2026 et 2027 : d et &micro; à moins de 0,2 seconde d'arc, l1 et l2 à 0,2 km.<br><br>"
++ "<b>Précision des heures.</b> Deux limites, dans cet ordre. La rotation de la Terre n'est pas prévisible : "
++ "l'écart &Delta;T vaut " + (ecl ? ecl.dT.toFixed(1) : '—') + " s pour l'éclipse affichée, connu à quelques secondes près "
++ "aujourd'hui et à plusieurs minutes près vers 2126. Puis la théorie lunaire abrégée, qui laisse 5 à 10 secondes. "
++ "En pratique : 2027 tombe à la seconde sur les éphémérides publiées, 2026 à neuf secondes.<br><br>"
++ "Les <b>durées</b> de phase centrale échappent à ces deux limites et restent fiables : "
++ "une différence de temps annule l'erreur commune.<br><br>"
++ CATALOGUE.length + " éclipses solaires de 2026 à 2126. Coordonnées des villes approchées au kilomètre. "
++ "Taille des astres exagérée ; positions, angles et durées réels.";
 
 resize();
 window.addEventListener('resize', resize);
-buildContacts();
-const memoire = lieuEnregistre();
-setSite(memoire ? memoire.lat : site.lat,
-        memoire ? memoire.lon : site.lon,
-        memoire ? memoire.h   : site.h,
-        memoire ? memoire.nom : site.nom);
+const memoire = relire();
+if (memoire){ ecl = { date: memoire.date }; setSite(memoire.site.lat, memoire.site.lon, memoire.site.h, memoire.site.nom, memoire.site.tz); }
+else setSite(site.lat, site.lon, site.h, site.nom, site.tz);
+construireListeVilles('');
 frame();
-</script>
 
-<script>
-/* enregistrement du service worker : icône d'accueil + fonctionnement hors connexion */
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch((e) => console.warn('SW:', e));
-  });
-}
-</script>
-
-<script>
-/* ---- diagnostic : dit précisément ce qui empêche l'installation ---- */
-(async () => {
-  const ul = document.getElementById('diagList');
-  const lignes = [];
-  const add = (ok, txt) => lignes.push({ ok, txt });
-
-  add(location.protocol === 'https:' || location.hostname === 'localhost',
-      location.protocol === 'https:' ? 'Page servie en https'
-        : `Page servie en ${location.protocol} — Chrome n'installe que du https`);
-
-  add(!!navigator.serviceWorker, 'API service worker disponible');
-  if (navigator.serviceWorker) {
-    try {
-      const r = await navigator.serviceWorker.getRegistration();
-      add(!!r, r ? 'Service worker enregistré' : 'Service worker absent — rechargez la page');
-    } catch (e) { add(false, 'Service worker : ' + e.message); }
-  }
-
-  let man = null;
-  try {
-    const rep = await fetch('./manifest.webmanifest', { cache: 'no-store' });
-    add(rep.ok, rep.ok ? 'Manifeste chargé' : `Manifeste introuvable (HTTP ${rep.status}) — fichier absent du dépôt`);
-    if (rep.ok) man = await rep.json();
-  } catch (e) { add(false, 'Manifeste illisible : ' + e.message); }
-
-  if (man) {
-    add(Array.isArray(man.icons) && man.icons.length > 0, 'Icônes déclarées : ' + (man.icons || []).length);
-    for (const ic of man.icons || []) {
-      try {
-        const r = await fetch(ic.src, { cache: 'no-store' });
-        const type = r.headers.get('content-type') || '';
-        add(r.ok && type.includes('png'),
-            r.ok ? `${ic.src} — ${ic.sizes} ${type.includes('png') ? 'OK' : 'type ' + type}`
-                 : `${ic.src} — HTTP ${r.status}, fichier manquant`);
-      } catch (e) { add(false, `${ic.src} — ${e.message}`); }
-    }
-    add(!!man.start_url && !!man.name && man.display === 'standalone',
-        `start_url ${man.start_url}, affichage ${man.display}`);
-  }
-
-  const pose = matchMedia('(display-mode: standalone)').matches;
-  add(true, pose ? 'Lancée depuis l\'écran d\'accueil' : 'Ouverte dans le navigateur');
-
-  ul.innerHTML = '';
-  for (const l of lignes) {
-    const li = document.createElement('li');
-    li.className = l.ok ? 'ok' : 'ko';
-    li.innerHTML = '<b>' + (l.ok ? '\u2713' : '\u2717') + '</b><span></span>';
-    li.querySelector('span').textContent = l.txt;
-    ul.appendChild(li);
-  }
-  const ko = lignes.filter(l => !l.ok).length;
-  if (ko) document.querySelector('.diag').open = true;
-})();
 </script>
 </body>
 </html>

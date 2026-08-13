@@ -2,7 +2,7 @@
    Le cache ne sert que si le réseau est injoignable : une version déployée
    est visible dès le rechargement suivant, sans avoir à vider quoi que ce soit.
    Le fonctionnement hors connexion reste assuré — utile sur un cap le 2 août 2027. */
-const VERSION = 'ecl2027-v7';
+const VERSION = 'ecl-v8';
 const CACHE = 'secours-' + VERSION;
 
 const FICHIERS = [

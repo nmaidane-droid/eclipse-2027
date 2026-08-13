@@ -1,7 +1,7 @@
 {
-  "name": "Éclipse totale — 2 août 2027",
-  "short_name": "Éclipse 2027",
-  "description": "Horaires, durée de totalité et simulation en direct de l'éclipse totale de Soleil du 2 août 2027 au Maroc.",
+  "name": "Éclipses solaires — un siècle",
+  "short_name": "Éclipses",
+  "description": "Les 230 éclipses solaires de 2026 à 2126, calculées pour le lieu de votre choix : horaires locaux, durée de totalité, simulation du ciel.",
   "lang": "fr",
   "dir": "ltr",
   "start_url": "./",
