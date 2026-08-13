@@ -1,0 +1,37 @@
+{
+  "name": "Éclipses solaires — un siècle",
+  "short_name": "Éclipses",
+  "description": "Les 230 éclipses solaires de 2026 à 2126, calculées pour le lieu de votre choix : horaires locaux, durée de totalité, simulation du ciel.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#070B1A",
+  "theme_color": "#070B1A",
+  "categories": [
+    "education",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
