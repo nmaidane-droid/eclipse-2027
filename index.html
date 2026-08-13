@@ -60,10 +60,15 @@ h1 em{font-style:italic;color:var(--safran)}
 .scene{position:relative;border-radius:14px;overflow:hidden;
   border:1px solid var(--trait);background:#03050C;aspect-ratio:1/1}
 .scene canvas{display:block;width:100%;height:100%}
-.scene .tag{position:absolute;left:10px;top:9px;font-family:'IBM Plex Mono',monospace;
-  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(244,239,230,.55);text-shadow:0 1px 3px rgba(0,0,0,.7);pointer-events:none}
-.scene .tag.r{left:auto;right:10px;text-align:right}
+.scene .tagbar{
+  position:absolute;left:0;right:0;top:0;display:flex;align-items:baseline;
+  justify-content:space-between;gap:12px;padding:9px 10px;pointer-events:none;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(244,239,230,.62);
+  text-shadow:0 1px 3px rgba(0,0,0,.75);
+}
+.scene .tagbar .l{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scene .tagbar .r{flex:0 0 auto;white-space:nowrap;text-align:right}
 .scene .totband{
   position:absolute;left:0;right:0;bottom:0;padding:9px 12px;
   background:linear-gradient(0deg,rgba(3,5,12,.92),rgba(3,5,12,0));
@@ -167,8 +172,10 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--trait);
 
   <div class="scene">
     <canvas id="sky"></canvas>
-    <div class="tag" id="tagLeft">Vue vers l'est</div>
-    <div class="tag r" id="tagRight">—</div>
+    <div class="tagbar">
+      <span class="l" id="tagLeft">Vue vers l'est</span>
+      <span class="r" id="tagRight">—</span>
+    </div>
     <div class="totband" id="totBand">Totalité — lunettes retirées</div>
   </div>
 
@@ -453,8 +460,10 @@ function drawGrid(jour) {
     if (alt === 0) continue;
     const y = project(VIEW.az, alt)[1];
     ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-    ctx.fillStyle = `rgba(244,239,230,${a + .16})`;
-    ctx.fillText(alt + '°', 6, y - 4);
+    if (y > 26 && y < Hh - 26) {            // ni sous la barre du haut, ni dans les azimuts
+      ctx.fillStyle = `rgba(244,239,230,${a + .16})`;
+      ctx.fillText(alt + '°', 6, y - 4);
+    }
   }
 
   ctx.textAlign = 'center';
@@ -738,8 +747,8 @@ function tick() {
     ? 'En direct · ' + d.toLocaleDateString('fr-FR', { timeZone: TZ, day: 'numeric', month: 'short', year: 'numeric' })
     : 'Simulation · 2 août 2027';
   $('tagRight').textContent = sun.alt > 0
-    ? `${sun.alt.toFixed(0)}\u00b0 de hauteur · azimut ${sun.az.toFixed(0)}\u00b0`
-    : `sous l'horizon · azimut ${sun.az.toFixed(0)}\u00b0`;
+    ? `${sun.alt.toFixed(0)}° · az ${sun.az.toFixed(0)}°`
+    : `sous l'horizon · az ${sun.az.toFixed(0)}°`;
   $('scrubTime').textContent = fmtLocal(d);
   $('totBand').classList.toggle('on', !!(c && c.total));
   updateStatut(t);
