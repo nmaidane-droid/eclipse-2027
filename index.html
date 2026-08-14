@@ -174,7 +174,7 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--trait);
 
   <div class="statut"><span class="label" id="statutLabel">—</span><span class="val live" id="statutVal">—</span></div>
 
-  <div class="scene">
+  <div class="scene" id="scene">
     <canvas id="sky"></canvas>
     <div class="tagbar"><span class="l" id="tagLeft">—</span><span class="r" id="tagRight">—</span></div>
     <div class="totband" id="totBand">Totalité — lunettes retirées</div>
@@ -864,16 +864,27 @@ function frame(){ try { tick(); } catch(e){ console.error('rendu:',e); } request
 
 /* ---- commandes ---- */
 function setActive(id){ for (const k of ['btnLive','btnPlay','btnTot']) $(k).classList.toggle('on', k===id); }
+
+/* Les commandes sont sous le ciel : on y ramène l'écran plutôt que de faire remonter. */
+function voirCiel(){
+  const s = $('scene');
+  if (!s || !s.scrollIntoView) return;
+  let doux = true;
+  try { doux = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
+  catch (e) {}
+  s.scrollIntoView({ behavior: doux ? 'smooth' : 'auto', block: 'center' });
+}
 $('scrub').addEventListener('input', (e) => {
   mode='scrub'; scrubT = T_START + (e.target.value/2000)*(T_END-T_START); setActive(null);
 });
-$('btnLive').addEventListener('click', () => { mode='live'; setActive('btnLive'); });
-$('btnPlay').addEventListener('click', () => { mode='play'; playStart=performance.now(); setActive('btnPlay'); });
+$('btnLive').addEventListener('click', () => { mode='live'; setActive('btnLive'); voirCiel(); });
+$('btnPlay').addEventListener('click', () => { mode='play'; playStart=performance.now(); setActive('btnPlay'); voirCiel(); });
 $('btnTot').addEventListener('click', () => {
   if (!contacts) return;
   mode='scrub';
   scrubT = (contacts.C2 && contacts.C3) ? (contacts.C2+contacts.C3)/2 : contacts.MAX;
   setActive('btnTot');
+  voirCiel();
 });
 $('btnChangerEcl').addEventListener('click', () => {
   const p = $('panneauEcl');
