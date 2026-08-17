@@ -412,6 +412,20 @@ function eclipsesVisibles(site){
       const c=circ(site,jd,ecl.dT);
       if (c.mag>best){best=c.mag; jdBest=jd;}
     }
+    // Maximum exact, mais seulement quand l'eclipse frole la centralite :
+    // une totalite d'une minute passe entre les mailles d'un balayage a deux
+    // minutes et serait classee partielle a tort. Ailleurs le maximum est plat,
+    // un decalage d'une minute ne change rien a la magnitude.
+    if (best > 0.985){
+      let a=jdBest-2/1440, b=jdBest+2/1440;
+      const phi=(Math.sqrt(5)-1)/2;
+      for (let i=0;i<28;i++){
+        const m1=b-phi*(b-a), m2=a+phi*(b-a);
+        if (circ(site,m1,ecl.dT).mag > circ(site,m2,ecl.dT).mag) b=m2; else a=m1;
+      }
+      jdBest=(a+b)/2;
+      best=circ(site,jdBest,ecl.dT).mag;
+    }
     if (best<=0) continue;
     const sun=sunAltAz(site,jdBest,ecl.dT);
     if (sun.alt<=0) continue;               // éclipse sous l'horizon
