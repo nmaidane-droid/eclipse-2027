@@ -852,7 +852,9 @@ function tick(){
   const { c, o, sun, dans } = render(t);
   const dT = (ecl && isFinite(ecl.dT)) ? ecl.dT : 70;
   $('dHeure').textContent = fmt(t, dT, true);
-  $('dObsc').innerHTML = dans ? `${(o*100).toFixed(1)} <small>%</small>` : '<small>hors éclipse</small>';
+  // Hors de la fenêtre de validité, la géométrie n'est pas calculée : le Soleil
+  // est entier, donc 0,0 %. Exact, et plus lisible que « hors éclipse ».
+  $('dObsc').innerHTML = `${(dans ? o*100 : 0).toFixed(1)} <small>%</small>`;
   $('dMag').textContent = c ? Math.max(0,c.mag).toFixed(3) : '—';
   $('dAlt').innerHTML = `${sun.alt.toFixed(1)}<small>°</small>`;
   $('dAz').innerHTML = `${sun.az.toFixed(1)}<small>°</small>`;
@@ -947,6 +949,7 @@ $('pied').innerHTML =
 + "Les <b>durées</b> de phase centrale échappent à ces deux limites et restent fiables : "
 + "une différence de temps annule l'erreur commune.<br><br>"
 + CATALOGUE.length + " éclipses solaires de 2026 à 2126. Coordonnées des villes approchées au kilomètre. "
++ "<br><br>Version <b>2026-08-17b</b>. "
 + "Taille des astres exagérée ; positions, angles et durées réels.";
 
 resize();
